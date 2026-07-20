@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --color-navy-900: #0a1628;
+  --color-navy-800: #0f2040;
+  --color-navy-700: #162d50;
+  --color-navy-600: #1e3a5f;
+  --color-navy-500: #2a4a7f;
+  --color-blue-900: #1a365d;
+  --color-blue-800: #1e4a8a;
+  --color-blue-700: #2563eb;
+  --color-blue-600: #3b82f6;
+  --color-gold-500: #d4a843;
+  --color-gold-400: #e5b94e;
+  --color-gold-300: #f0c75e;
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #94a3b8;
+  --color-gray-500: #64748b;
+  --color-gray-600: #475569;
+  --color-gray-700: #334155;
+  --color-gray-800: #1e293b;
+  --color-gray-900: #0f172a;
+}
+
+@layer base {
+  * {
+    @apply border-gray-200;
+  }
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-sm border border-gray-200/50 rounded-xl shadow-sm;
+  }
+  .card-hover {
+    @apply transition-all duration-200 hover:shadow-md hover:-translate-y-0.5;
+  }
+  .btn-primary {
+    @apply bg-navy-800 hover:bg-navy-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200;
+  }
+  .btn-gold {
+    @apply bg-gold-500 hover:bg-gold-400 text-navy-900 px-4 py-2 rounded-lg font-medium transition-all duration-200;
+  }
+}

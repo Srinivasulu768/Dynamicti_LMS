@@ -1,0 +1,17 @@
+[
+  {"id":"ENR001","userId":"USR006","userName":"Michael Johnson","courseId":"CRS005","courseName":"Network Security Fundamentals","progress":88,"status":"in_progress","enrolledDate":"2026-06-01","grade":"A"},
+  {"id":"ENR002","userId":"USR006","userName":"Michael Johnson","courseId":"CRS001","courseName":"Advanced Cybersecurity Operations","progress":45,"status":"in_progress","enrolledDate":"2026-06-15"},
+  {"id":"ENR003","userId":"USR006","userName":"Michael Johnson","courseId":"CRS009","courseName":"Compliance & Regulatory Training","progress":100,"status":"completed","enrolledDate":"2026-05-01","completedDate":"2026-06-15","grade":"A"},
+  {"id":"ENR004","userId":"USR007","userName":"Emily Williams","courseId":"CRS005","courseName":"Network Security Fundamentals","progress":100,"status":"completed","enrolledDate":"2026-03-10","completedDate":"2026-05-20","grade":"A+"},
+  {"id":"ENR005","userId":"USR007","userName":"Emily Williams","courseId":"CRS001","courseName":"Advanced Cybersecurity Operations","progress":72,"status":"in_progress","enrolledDate":"2026-05-25"},
+  {"id":"ENR006","userId":"USR011","userName":"Amanda Davis","courseId":"CRS004","courseName":"Project Management Professional","progress":100,"status":"completed","enrolledDate":"2026-04-01","completedDate":"2026-06-30","grade":"B+"},
+  {"id":"ENR007","userId":"USR011","userName":"Amanda Davis","courseId":"CRS002","courseName":"Leadership & Strategic Management","progress":56,"status":"in_progress","enrolledDate":"2026-06-20"},
+  {"id":"ENR008","userId":"USR012","userName":"Christopher Wilson","courseId":"CRS003","courseName":"Military Communications Systems","progress":30,"status":"in_progress","enrolledDate":"2026-07-01"},
+  {"id":"ENR009","userId":"USR013","userName":"Jessica Garcia","courseId":"CRS002","courseName":"Leadership & Strategic Management","progress":100,"status":"completed","enrolledDate":"2026-04-15","completedDate":"2026-07-01","grade":"A"},
+  {"id":"ENR010","userId":"USR015","userName":"Stephanie Clark","courseId":"CRS006","courseName":"Data Analytics for Defense","progress":65,"status":"in_progress","enrolledDate":"2026-06-10"},
+  {"id":"ENR011","userId":"USR018","userName":"Thomas Young","courseId":"CRS001","courseName":"Advanced Cybersecurity Operations","progress":100,"status":"completed","enrolledDate":"2026-03-01","completedDate":"2026-07-10","grade":"A"},
+  {"id":"ENR012","userId":"USR019","userName":"Michelle King","courseId":"CRS009","courseName":"Compliance & Regulatory Training","progress":100,"status":"completed","enrolledDate":"2026-05-15","completedDate":"2026-06-20","grade":"A-"},
+  {"id":"ENR013","userId":"USR006","userName":"Michael Johnson","courseId":"CRS004","courseName":"Project Management Professional","progress":32,"status":"in_progress","enrolledDate":"2026-07-01"},
+  {"id":"ENR014","userId":"USR007","userName":"Emily Williams","courseId":"CRS007","courseName":"Emergency Response & Crisis Management","progress":15,"status":"enrolled","enrolledDate":"2026-07-15"},
+  {"id":"ENR015","userId":"USR012","userName":"Christopher Wilson","courseId":"CRS009","courseName":"Compliance & Regulatory Training","progress":100,"status":"completed","enrolledDate":"2026-02-01","completedDate":"2026-04-10","grade":"B"}
+]

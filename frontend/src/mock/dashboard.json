@@ -1,0 +1,205 @@
+{
+  "superAdmin": {
+    "stats": {
+      "totalUsers": 1248,
+      "totalLearners": 986,
+      "totalCourses": 86,
+      "totalEnrollments": 2456,
+      "totalOrganizations": 112,
+      "totalSessions": 156,
+      "revenue": 125430,
+      "certificatesIssued": 1987,
+      "activeInquiries": 34
+    },
+    "enrollmentChart": [
+      {"name":"Jan","value":180},{"name":"Feb","value":220},{"name":"Mar","value":310},{"name":"Apr","value":280},{"name":"May","value":350},{"name":"Jun","value":420},{"name":"Jul","value":390}
+    ],
+    "revenueChart": [
+      {"name":"Jan","value":15200},{"name":"Feb","value":18400},{"name":"Mar","value":22100},{"name":"Apr","value":19800},{"name":"May","value":24500},{"name":"Jun","value":28900},{"name":"Jul","value":21200}
+    ],
+    "recentActivities": [
+      {"id":"ACT001","action":"New user registered","user":"Michael Johnson","time":"2 minutes ago"},
+      {"id":"ACT002","action":"Course published","user":"David Chen","time":"15 minutes ago"},
+      {"id":"ACT003","action":"Payment received","user":"Acme Corporation","time":"1 hour ago"},
+      {"id":"ACT004","action":"Certificate issued","user":"Emily Williams","time":"2 hours ago"},
+      {"id":"ACT005","action":"New organization added","user":"System","time":"3 hours ago"},
+      {"id":"ACT006","action":"Enrollment completed","user":"Thomas Young","time":"4 hours ago"}
+    ],
+    "systemAlerts": [
+      {"id":"ALT001","type":"warning","message":"Server load at 78%","time":"10 minutes ago"},
+      {"id":"ALT002","type":"info","message":"Scheduled maintenance tonight at 2 AM","time":"1 hour ago"},
+      {"id":"ALT003","type":"success","message":"Backup completed successfully","time":"3 hours ago"},
+      {"id":"ALT004","type":"info","message":"3 new integration requests pending","time":"5 hours ago"}
+    ],
+    "integrationStatus": [
+      {"name":"Payment Gateway","status":"healthy","uptime":"99.9%"},
+      {"name":"Email Service","status":"warning","uptime":"98.5%"},
+      {"name":"Video Streaming","status":"healthy","uptime":"99.7%"},
+      {"name":"SMS Gateway","status":"healthy","uptime":"99.8%"}
+    ],
+    "topCourses": [
+      {"name":"Network Security","enrollments":342},
+      {"name":"Compliance Training","enrollments":278},
+      {"name":"Project Management","enrollments":210},
+      {"name":"Cybersecurity Ops","enrollments":156},
+      {"name":"Data Analytics","enrollments":128}
+    ]
+  },
+  "trainingAdmin": {
+    "stats": {
+      "activeCourses": 58,
+      "completedCourses": 24,
+      "upcomingSessions": 24,
+      "totalEnrollments": 1285,
+      "completionRate": 72,
+      "openInquiries": 18,
+      "assessments": 76,
+      "certificatesIssued": 854
+    },
+    "enrollmentStatus": [
+      {"name":"Completed","value":45},{"name":"In Progress","value":35},{"name":"Not Started","value":20}
+    ],
+    "learnerProgress": [
+      {"name":"Jan","enrolled":120,"completed":85},
+      {"name":"Feb","enrolled":150,"completed":98},
+      {"name":"Mar","enrolled":200,"completed":145},
+      {"name":"Apr","enrolled":180,"completed":130},
+      {"name":"May","enrolled":220,"completed":160},
+      {"name":"Jun","enrolled":280,"completed":195}
+    ],
+    "upcomingSessions": [
+      {"title":"Cybersecurity Workshop","date":"2026-07-22","type":"Virtual","registrations":45},
+      {"title":"Leadership Seminar","date":"2026-07-25","type":"In-Person","registrations":30},
+      {"title":"PMP Prep Session","date":"2026-07-28","type":"Hybrid","registrations":60},
+      {"title":"Active Shooter Response","date":"2026-08-01","type":"In-Person","registrations":25}
+    ],
+    "recentInquiries": [
+      {"id":"INQ001","company":"Apex Defense","type":"Enterprise","date":"2026-07-19","status":"new"},
+      {"id":"INQ002","company":"SecureTech","type":"Training","date":"2026-07-18","status":"in_progress"},
+      {"id":"INQ003","company":"GlobalForce","type":"Consultation","date":"2026-07-17","status":"pending"}
+    ],
+    "certificationStats": {
+      "issuedThisMonth": 45,
+      "pendingApproval": 12,
+      "expiringSoon": 8
+    }
+  },
+  "contentManager": {
+    "stats": {
+      "totalCourses": 46,
+      "totalPrograms": 13,
+      "publishedCourses": 28,
+      "draftCourses": 12,
+      "archivedCourses": 6,
+      "totalModules": 132,
+      "totalLessons": 358,
+      "assessments": 67
+    },
+    "courseStatus": [
+      {"name":"Published","value":28},{"name":"Draft","value":12},{"name":"Archived","value":6}
+    ],
+    "contentPublicationStatus": [
+      {"name":"Lessons Published","value":312},
+      {"name":"Lessons Draft","value":46},
+      {"name":"Videos Published","value":89},
+      {"name":"Videos Processing","value":5},
+      {"name":"Documents Published","value":67}
+    ],
+    "recentDrafts": [
+      {"title":"AI in Defense","status":"draft","lastEdited":"2 hours ago","type":"course"},
+      {"title":"Supply Chain Mgmt","status":"draft","lastEdited":"5 hours ago","type":"course"},
+      {"title":"Cyber Warfare","status":"review","lastEdited":"1 day ago","type":"course"},
+      {"title":"Tactical Medicine Module 5","status":"draft","lastEdited":"3 hours ago","type":"module"}
+    ]
+  },
+  "instructor": {
+    "stats": {
+      "assignedCourses": 8,
+      "upcomingSessions": 5,
+      "totalLearners": 152,
+      "pendingEvaluations": 18,
+      "completedSessions": 27,
+      "averageRating": 4.6,
+      "assignedAssessments": 12,
+      "attendanceRate": 92
+    },
+    "upcomingSessions": [
+      {"title":"Cybersecurity Lab","date":"2026-07-22","time":"09:00 AM","mode":"Virtual","registrations":25},
+      {"title":"Network Defense","date":"2026-07-24","time":"02:00 PM","mode":"In-Person","registrations":18},
+      {"title":"Incident Response","date":"2026-07-26","time":"10:00 AM","mode":"Hybrid","registrations":32}
+    ],
+    "pendingAssessmentEvaluations": [
+      {"title":"Network Security Quiz 4","submissions":18,"course":"Network Security Fundamentals","dueDate":"2026-07-23"},
+      {"title":"Cybersecurity Mid-term","submissions":12,"course":"Advanced Cybersecurity Operations","dueDate":"2026-07-25"},
+      {"title":"PMP Practice Exam","submissions":8,"course":"Project Management Professional","dueDate":"2026-07-27"}
+    ],
+    "learnerProgress": [
+      {"name":"Week 1","completed":85},{"name":"Week 2","completed":72},{"name":"Week 3","completed":68},{"name":"Week 4","completed":91}
+    ],
+    "attendanceOverview": [
+      {"session":"Cybersecurity Lab","present":22,"absent":3,"total":25},
+      {"session":"Network Defense","present":16,"absent":2,"total":18},
+      {"session":"Incident Response","present":30,"absent":2,"total":32}
+    ]
+  },
+  "orgAdmin": {
+    "stats": {
+      "totalUsers": 86,
+      "activeEnrollments": 132,
+      "completedTrainings": 74,
+      "upcomingSessions": 9,
+      "complianceRate": 78,
+      "openRequests": 6
+    },
+    "trainingProgress": [
+      {"name":"Cybersecurity","progress":90},{"name":"Compliance","progress":85},{"name":"Leadership","progress":72},{"name":"Technical","progress":68}
+    ],
+    "complianceOverview": [
+      {"name":"Jan","rate":65},{"name":"Feb","rate":70},{"name":"Mar","rate":72},{"name":"Apr","rate":75},{"name":"May","rate":78},{"name":"Jun","rate":78}
+    ],
+    "trainingRequests": [
+      {"id":"TR001","title":"Advanced Cybersecurity for IT Team","requestedBy":"Linda Thompson","date":"2026-07-18","status":"pending","users":12},
+      {"id":"TR002","title":"Leadership Development Program","requestedBy":"Mark Stevens","date":"2026-07-15","status":"approved","users":8},
+      {"id":"TR003","title":"Compliance Refresher Training","requestedBy":"Linda Thompson","date":"2026-07-12","status":"completed","users":45}
+    ],
+    "learnerCompletions": [
+      {"name":"Michael Johnson","course":"Network Security","completedDate":"2026-07-18","grade":"A"},
+      {"name":"Amanda Davis","course":"Compliance Training","completedDate":"2026-07-16","grade":"A-"},
+      {"name":"Kevin Hall","course":"Leadership Basics","completedDate":"2026-07-14","grade":"B+"}
+    ]
+  },
+  "learner": {
+    "stats": {
+      "enrolledCourses": 5,
+      "inProgress": 3,
+      "completed": 2,
+      "certificates": 2,
+      "overallProgress": 65,
+      "totalHoursLearned": 48
+    },
+    "myCourses": [
+      {"title":"Network Security Fundamentals","progress":88,"status":"in_progress"},
+      {"title":"Cybersecurity Operations","progress":45,"status":"in_progress"},
+      {"title":"Compliance Training","progress":100,"status":"completed"},
+      {"title":"Project Management","progress":32,"status":"in_progress"},
+      {"title":"Leadership Basics","progress":100,"status":"completed"}
+    ],
+    "upcomingSessions": [
+      {"title":"Security Lab Practice","date":"2026-07-22","time":"10:00 AM"},
+      {"title":"PMP Study Group","date":"2026-07-25","time":"02:00 PM"}
+    ],
+    "pendingAssessments": [
+      {"title":"Network Security Quiz 4","dueDate":"2026-07-25","course":"Network Security"},
+      {"title":"Cyber Ops Mid-term","dueDate":"2026-07-28","course":"Cybersecurity Operations"}
+    ],
+    "recentCertificates": [
+      {"title":"Compliance Training Certificate","date":"2026-06-15"},
+      {"title":"Leadership Basics Certificate","date":"2026-05-20"}
+    ],
+    "learningHistory": [
+      {"title":"Compliance Training","completedDate":"2026-06-15","hours":16,"grade":"A"},
+      {"title":"Leadership Basics","completedDate":"2026-05-20","hours":12,"grade":"A-"},
+      {"title":"Intro to Security (Prerequisite)","completedDate":"2026-04-10","hours":8,"grade":"B+"}
+    ]
+  }
+}

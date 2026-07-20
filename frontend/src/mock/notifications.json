@@ -1,0 +1,10 @@
+[
+  {"id":"NOT001","title":"New Course Published","message":"Advanced Cybersecurity Operations is now available for enrollment.","type":"info","read":false,"date":"2026-07-20T08:30:00","route":"/courses"},
+  {"id":"NOT002","title":"Session Reminder","message":"Your Cybersecurity Workshop starts in 2 hours.","type":"warning","read":false,"date":"2026-07-20T07:00:00","route":"/sessions"},
+  {"id":"NOT003","title":"Certificate Issued","message":"Your Compliance Training certificate is ready for download.","type":"success","read":true,"date":"2026-07-19T14:00:00","route":"/certificates"},
+  {"id":"NOT004","title":"Payment Received","message":"Payment of $2,499 received from Emily Williams.","type":"success","read":true,"date":"2026-07-19T10:30:00","route":"/payments"},
+  {"id":"NOT005","title":"Assessment Due","message":"Network Security Quiz 4 is due in 5 days.","type":"warning","read":false,"date":"2026-07-18T09:00:00","route":"/assessments"},
+  {"id":"NOT006","title":"System Maintenance","message":"Scheduled maintenance tonight from 2:00 AM - 4:00 AM EST.","type":"info","read":false,"date":"2026-07-20T06:00:00","route":"/system-monitor"},
+  {"id":"NOT007","title":"Enrollment Confirmed","message":"You have been enrolled in Drone Operations & UAV Technology.","type":"success","read":true,"date":"2026-07-17T11:00:00","route":"/enrollments"},
+  {"id":"NOT008","title":"New Inquiry","message":"Enterprise training inquiry received from Apex Defense.","type":"info","read":false,"date":"2026-07-19T16:00:00","route":"/inquiries"}
+]

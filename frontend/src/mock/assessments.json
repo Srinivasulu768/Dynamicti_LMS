@@ -1,0 +1,10 @@
+[
+  {"id":"ASM001","title":"Network Security Fundamentals Quiz","courseId":"CRS005","courseName":"Network Security Fundamentals","type":"quiz","questions":20,"duration":30,"passingScore":70,"attempts":3,"status":"published"},
+  {"id":"ASM002","title":"Cybersecurity Operations Mid-Term","courseId":"CRS001","courseName":"Advanced Cybersecurity Operations","type":"exam","questions":50,"duration":90,"passingScore":75,"attempts":2,"status":"published"},
+  {"id":"ASM003","title":"PMP Practice Test","courseId":"CRS004","courseName":"Project Management Professional","type":"quiz","questions":30,"duration":45,"passingScore":65,"attempts":5,"status":"published"},
+  {"id":"ASM004","title":"Leadership Case Study","courseId":"CRS002","courseName":"Leadership & Strategic Management","type":"assignment","questions":5,"duration":120,"passingScore":60,"attempts":1,"status":"published"},
+  {"id":"ASM005","title":"Compliance Assessment","courseId":"CRS009","courseName":"Compliance & Regulatory Training","type":"exam","questions":40,"duration":60,"passingScore":80,"attempts":2,"status":"published"},
+  {"id":"ASM006","title":"Data Analytics Project","courseId":"CRS006","courseName":"Data Analytics for Defense","type":"assignment","questions":3,"duration":240,"passingScore":70,"attempts":1,"status":"published"},
+  {"id":"ASM007","title":"Emergency Response Simulation","courseId":"CRS007","courseName":"Emergency Response & Crisis Management","type":"exam","questions":35,"duration":75,"passingScore":80,"attempts":2,"status":"published"},
+  {"id":"ASM008","title":"Drone Flight Assessment","courseId":"CRS008","courseName":"Drone Operations & UAV Technology","type":"exam","questions":25,"duration":45,"passingScore":85,"attempts":2,"status":"draft"}
+]

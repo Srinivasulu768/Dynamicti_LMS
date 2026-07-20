@@ -1,0 +1,10 @@
+[
+  {"id":"CERT001","userId":"USR006","userName":"Michael Johnson","courseId":"CRS009","courseName":"Compliance & Regulatory Training","issueDate":"2026-06-15","expiryDate":"2027-06-15","certificateNumber":"DTI-2026-001234","status":"active","templateId":"TPL001"},
+  {"id":"CERT002","userId":"USR007","userName":"Emily Williams","courseId":"CRS005","courseName":"Network Security Fundamentals","issueDate":"2026-05-20","expiryDate":"2028-05-20","certificateNumber":"DTI-2026-001235","status":"active","templateId":"TPL002"},
+  {"id":"CERT003","userId":"USR011","userName":"Amanda Davis","courseId":"CRS004","courseName":"Project Management Professional","issueDate":"2026-06-30","expiryDate":"2029-06-30","certificateNumber":"DTI-2026-001236","status":"active","templateId":"TPL001"},
+  {"id":"CERT004","userId":"USR012","userName":"Christopher Wilson","courseId":"CRS009","courseName":"Compliance & Regulatory Training","issueDate":"2026-04-10","expiryDate":"2027-04-10","certificateNumber":"DTI-2026-001237","status":"active","templateId":"TPL001"},
+  {"id":"CERT005","userId":"USR013","userName":"Jessica Garcia","courseId":"CRS002","courseName":"Leadership & Strategic Management","issueDate":"2026-07-01","expiryDate":"2028-07-01","certificateNumber":"DTI-2026-001238","status":"active","templateId":"TPL003"},
+  {"id":"CERT006","userId":"USR015","userName":"Stephanie Clark","courseId":"CRS005","courseName":"Network Security Fundamentals","issueDate":"2026-03-15","expiryDate":"2028-03-15","certificateNumber":"DTI-2026-001239","status":"revoked","templateId":"TPL002"},
+  {"id":"CERT007","userId":"USR018","userName":"Thomas Young","courseId":"CRS001","courseName":"Advanced Cybersecurity Operations","issueDate":"2026-07-10","expiryDate":"2028-07-10","certificateNumber":"DTI-2026-001240","status":"active","templateId":"TPL002"},
+  {"id":"CERT008","userId":"USR019","userName":"Michelle King","courseId":"CRS009","courseName":"Compliance & Regulatory Training","issueDate":"2026-06-20","expiryDate":"2027-06-20","certificateNumber":"DTI-2026-001241","status":"active","templateId":"TPL001"}
+]
