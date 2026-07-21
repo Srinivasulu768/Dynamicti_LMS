@@ -11,7 +11,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Modal } from '@/components/ui/Modal';
-import coursesData from '@/mock/courses.json';
+import { getCourseById, getCourses } from '@/services/courseService';
 import type { Course } from '@/types';
 import toast from 'react-hot-toast';
 
@@ -34,7 +34,7 @@ export function CourseDetailPage() {
   const [enrolled, setEnrolled] = useState(false);
   const [learningStarted, setLearningStarted] = useState(false);
 
-  const course = (coursesData as Course[]).find((c) => c.id === id);
+  const course = getCourseById(id || '');
 
   if (!course) {
     return (
@@ -74,7 +74,6 @@ export function CourseDetailPage() {
           <div className="space-y-3">
             <div className="flex items-center gap-2">
               <Badge variant="gold">{course.category}</Badge>
-              <Badge variant={course.status === 'published' ? 'success' : 'warning'}>{course.status}</Badge>
               <Badge variant="info">{course.level}</Badge>
             </div>
             <h1 className="text-2xl lg:text-3xl font-bold">{course.title}</h1>
@@ -262,7 +261,7 @@ export function CourseDetailPage() {
               <CardContent>
                 <ul className="space-y-2">
                   {course.prerequisites.map((prereq) => {
-                    const prereqCourse = (coursesData as Course[]).find(c => c.id === prereq);
+                    const prereqCourse = getCourseById(prereq);
                     return (
                       <li key={prereq} className="text-sm text-gray-600 flex items-center gap-2">
                         <CheckCircle className="w-4 h-4 text-gray-400" />

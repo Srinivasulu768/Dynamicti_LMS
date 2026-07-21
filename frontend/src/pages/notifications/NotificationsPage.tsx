@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { FilterBar } from '@/components/ui/FilterBar';
 import { GridPagination } from '@/components/ui/GridPagination';
-import notificationsData from '@/mock/notifications.json';
+import { notificationService } from '@/services/notificationService';
 import toast from 'react-hot-toast';
 
 type NotifType = 'info' | 'warning' | 'success' | 'error';
@@ -30,7 +30,7 @@ const PAGE_SIZE = 10;
 
 export function NotificationsPage() {
   const navigate = useNavigate();
-  const [notifications, setNotifications] = useState<NotificationItem[]>(notificationsData as NotificationItem[]);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(() => notificationService.getAll() as NotificationItem[]);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [page, setPage] = useState(1);
@@ -45,16 +45,19 @@ export function NotificationsPage() {
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const markRead = (id: string) => {
-    setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
+    notificationService.markAsRead(id);
+    setNotifications(notificationService.getAll() as NotificationItem[]);
   };
 
   const markAllRead = () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    notificationService.markAllAsRead();
+    setNotifications(notificationService.getAll() as NotificationItem[]);
     toast.success('All marked as read');
   };
 
   const deleteNotif = (id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+    notificationService.delete(id);
+    setNotifications(notificationService.getAll() as NotificationItem[]);
     toast.success('Notification deleted');
   };
 

@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { Button } from '@/components/ui/Button';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { StatsCard } from '@/components/ui/StatsCard';
-import dashboardData from '@/mock/dashboard.json';
+import { dashboardService } from '@/services/dashboardService';
 import toast from 'react-hot-toast';
 
 const enrollmentByMonth = [
@@ -82,7 +82,7 @@ export function ReportsPage() {
         <CardHeader><CardTitle>Monthly Revenue Trend</CardTitle></CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={250}>
-            <LineChart data={dashboardData.superAdmin.revenueChart}>
+            <LineChart data={dashboardService.getSuperAdminData().revenueChart}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
               <XAxis dataKey="name" fontSize={12} stroke="#94a3b8" />
               <YAxis fontSize={12} stroke="#94a3b8" tickFormatter={(v) => `$${(v/1000).toFixed(0)}k`} />

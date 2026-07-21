@@ -3,10 +3,10 @@ import { BookOpen, Users, Star, BarChart3 } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { ProgressBar } from '@/components/ui/ProgressBar';
-import coursesData from '@/mock/courses.json';
+import { getCourses } from '@/services/courseService';
 
 export function MyCoursesPage() {
-  const myCourses = coursesData.filter(c => c.instructorId === 'USR004');
+  const myCourses = getCourses().filter(c => c.instructorId === 'USR004');
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
@@ -21,7 +21,6 @@ export function MyCoursesPage() {
             <div className="h-28 bg-gradient-to-br from-navy-800 to-navy-600 -mt-6 -mx-6 mb-4 rounded-t-xl flex items-center justify-center">
               <BookOpen className="w-8 h-8 text-gold-500" />
             </div>
-            <Badge variant="success" className="mb-2">{course.status}</Badge>
             <h3 className="font-semibold text-gray-900 mb-2">{course.title}</h3>
             <div className="space-y-2 text-sm text-gray-500">
               <div className="flex items-center gap-2"><Users className="w-4 h-4" /> {course.enrollmentCount} / {course.capacity} enrolled</div>

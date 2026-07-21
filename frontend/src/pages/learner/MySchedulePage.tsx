@@ -2,11 +2,12 @@ import { motion } from 'framer-motion';
 import { Calendar, Clock, MapPin } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import sessionsData from '@/mock/sessions.json';
+import { sessionService } from '@/services/sessionService';
 
 export function MySchedulePage() {
-  const upcoming = sessionsData.filter(s => s.status === 'scheduled');
-  const completed = sessionsData.filter(s => s.status === 'completed');
+  const sessions = sessionService.getAll();
+  const upcoming = sessions.filter(s => s.status === 'scheduled');
+  const completed = sessions.filter(s => s.status === 'completed');
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">

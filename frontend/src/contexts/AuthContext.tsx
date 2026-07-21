@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import type { User, Role } from '@/types';
-import usersData from '@/mock/users.json';
+import { loadUsers } from '@/services/userService';
 
 interface AuthContextType {
   user: User | null;
@@ -30,7 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const isAuthenticated = !!user;
 
   const login = (email: string, _password: string): boolean => {
-    const found = (usersData as User[]).find(
+    const found = loadUsers().find(
       (u) => u.email.toLowerCase() === email.toLowerCase()
     );
     if (found) {
@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Try to find a demo user for this role
     const email = demoAccounts[role];
     if (email) {
-      const found = (usersData as User[]).find(
+      const found = loadUsers().find(
         (u) => u.email.toLowerCase() === email.toLowerCase()
       );
       if (found) {

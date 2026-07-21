@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { ProgressBar } from '@/components/ui/ProgressBar';
-import assessmentsData from '@/mock/assessments.json';
+import { assessmentService } from '@/services/assessmentService';
 import toast from 'react-hot-toast';
 
 // Mock questions for assessment taking
@@ -71,14 +71,15 @@ const mockQuestions = [
 type AssessmentState = 'list' | 'instructions' | 'taking' | 'results';
 
 export function MyAssessmentsPage() {
+  const assessments = assessmentService.getAll();
   const [state, setState] = useState<AssessmentState>('list');
-  const [selectedAssessment, setSelectedAssessment] = useState<typeof assessmentsData[0] | null>(null);
+  const [selectedAssessment, setSelectedAssessment] = useState<typeof assessments[0] | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({});
   const [showResults, setShowResults] = useState(false);
   const [timeLeft] = useState('24:30');
 
-  const handleStartAssessment = (assessment: typeof assessmentsData[0]) => {
+  const handleStartAssessment = (assessment: typeof assessments[0]) => {
     setSelectedAssessment(assessment);
     setState('instructions');
     setCurrentQuestion(0);
@@ -354,7 +355,7 @@ export function MyAssessmentsPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {assessmentsData.filter(a => a.status === 'published').map((assessment) => (
+        {assessments.filter(a => a.status === 'published').map((assessment) => (
           <Card key={assessment.id} hover>
             <div className="flex items-start justify-between mb-3">
               <div className="p-2 bg-navy-800/5 rounded-lg">

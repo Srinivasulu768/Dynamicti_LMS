@@ -4,12 +4,12 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, BarChart, Bar, XAxis
 import { StatsCard } from '@/components/ui/StatsCard';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import dashboardData from '@/mock/dashboard.json';
+import { dashboardService } from '@/services/dashboardService';
 
 const COLORS = ['#10b981', '#3b82f6', '#94a3b8'];
 
 export function TrainingAdminDashboard() {
-  const data = dashboardData.trainingAdmin;
+  const data = dashboardService.getTrainingAdminData();
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">

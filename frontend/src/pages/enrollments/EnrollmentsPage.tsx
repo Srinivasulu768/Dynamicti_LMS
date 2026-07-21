@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/Badge';
 import { DataTable } from '@/components/ui/DataTable';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { FilterBar } from '@/components/ui/FilterBar';
-import enrollmentsData from '@/mock/enrollments.json';
+import { enrollmentService } from '@/services/enrollmentService';
 import type { Enrollment } from '@/types';
 
 const statusColors: Record<string, 'success' | 'info' | 'warning' | 'default' | 'danger'> = {
@@ -12,7 +12,7 @@ const statusColors: Record<string, 'success' | 'info' | 'warning' | 'default' | 
 };
 
 export function EnrollmentsPage() {
-  const enrollments = enrollmentsData as Enrollment[];
+  const enrollments = enrollmentService.getAll();
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
 

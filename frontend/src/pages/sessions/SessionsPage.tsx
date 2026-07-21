@@ -9,7 +9,7 @@ import { Input } from '@/components/ui/Input';
 import { FilterBar } from '@/components/ui/FilterBar';
 import { PermissionGate } from '@/components/ui/PermissionGate';
 import { GridPagination } from '@/components/ui/GridPagination';
-import sessionsData from '@/mock/sessions.json';
+import { sessionService } from '@/services/sessionService';
 import type { Session } from '@/types';
 import toast from 'react-hot-toast';
 
@@ -26,7 +26,7 @@ export function SessionsPage() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showAttendanceModal, setShowAttendanceModal] = useState(false);
-  const [sessions, setSessions] = useState(sessionsData as Session[]);
+  const [sessions, setSessions] = useState<Session[]>(() => sessionService.getAll());
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
@@ -41,7 +41,8 @@ export function SessionsPage() {
 
   const handleDelete = () => {
     if (selectedSession) {
-      setSessions(sessions.filter(s => s.id !== selectedSession.id));
+      sessionService.delete(selectedSession.id);
+      setSessions(sessionService.getAll());
       setShowDeleteModal(false);
       setSelectedSession(null);
       toast.success('Session deleted!');
@@ -49,7 +50,8 @@ export function SessionsPage() {
   };
 
   const handleCancel = (session: Session) => {
-    setSessions(sessions.map(s => s.id === session.id ? { ...s, status: 'cancelled' as const } : s));
+    sessionService.update(session.id, { status: 'cancelled' });
+    setSessions(sessionService.getAll());
     toast.success('Session cancelled');
   };
 

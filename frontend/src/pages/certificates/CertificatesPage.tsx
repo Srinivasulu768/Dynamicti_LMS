@@ -6,12 +6,12 @@ import { Badge } from '@/components/ui/Badge';
 import { DataTable } from '@/components/ui/DataTable';
 import { StatsCard } from '@/components/ui/StatsCard';
 import { FilterBar } from '@/components/ui/FilterBar';
-import certificatesData from '@/mock/certificates.json';
+import { certificateService } from '@/services/certificateService';
 import type { Certificate } from '@/types';
 import toast from 'react-hot-toast';
 
 export function CertificatesPage() {
-  const certs = certificatesData as Certificate[];
+  const certs = certificateService.getAll();
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
 

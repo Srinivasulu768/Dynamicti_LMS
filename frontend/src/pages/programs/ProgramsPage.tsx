@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus, Grid3X3, List, GraduationCap, Users, Clock, DollarSign, ChevronRight } from 'lucide-react';
+import { Plus, GraduationCap, Users, Clock, DollarSign, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
@@ -9,21 +9,21 @@ import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { FilterBar } from '@/components/ui/FilterBar';
 import { GridPagination } from '@/components/ui/GridPagination';
-import programsData from '@/mock/programs.json';
+import { programService } from '@/services/programService';
 import { PermissionGate } from '@/components/ui/PermissionGate';
 import toast from 'react-hot-toast';
 
 export function ProgramsPage() {
-  const [view, setView] = useState<'grid' | 'list'>('grid');
   const [showAddModal, setShowAddModal] = useState(false);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
-  const categories = [...new Set(programsData.map(p => p.category))];
+  const programs = programService.getAll();
+  const categories = [...new Set(programs.map(p => p.category))];
 
-  const filtered = programsData.filter((p) => {
+  const filtered = programs.filter((p) => {
     const matchSearch = !search || p.title.toLowerCase().includes(search.toLowerCase()) || p.category.toLowerCase().includes(search.toLowerCase());
     const matchCat = !filters.category || filters.category === 'all' || p.category === filters.category;
     const matchStatus = !filters.status || filters.status === 'all' || p.status === filters.status;
@@ -34,17 +34,9 @@ export function ProgramsPage() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
       <div className="flex items-center justify-between">
         <p className="text-sm text-gray-500">{filtered.length} training programs</p>
-        <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => setView('grid')} className={view === 'grid' ? 'bg-gray-100' : ''}>
-            <Grid3X3 className="w-4 h-4" />
-          </Button>
-          <Button variant="outline" size="sm" onClick={() => setView('list')} className={view === 'list' ? 'bg-gray-100' : ''}>
-            <List className="w-4 h-4" />
-          </Button>
-          <PermissionGate module="Programs" action="create">
-            <Button onClick={() => setShowAddModal(true)}><Plus className="w-4 h-4 mr-1" /> Add Program</Button>
-          </PermissionGate>
-        </div>
+        <PermissionGate module="Programs" action="create">
+          <Button onClick={() => setShowAddModal(true)}><Plus className="w-4 h-4 mr-1" /> Add Program</Button>
+        </PermissionGate>
       </div>
 
       {/* Filter Bar */}
@@ -58,8 +50,7 @@ export function ProgramsPage() {
         ]}
       />
       {/* Grid View */}
-      {view === 'grid' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.slice((page - 1) * 10, page * 10).map((program) => (
             <Card key={program.id} hover className="overflow-hidden">
               <div className="h-32 bg-gradient-to-br from-navy-800 to-navy-600 rounded-t-lg -mt-6 -mx-6 mb-4 flex items-center justify-center">
@@ -92,49 +83,7 @@ export function ProgramsPage() {
               </div>
             </Card>
           ))}
-        </div>
-      ) : (
-        <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-          <table className="w-full text-sm">
-            <thead className="bg-gray-50 border-b">
-              <tr>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">Program</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">Category</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">Duration</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">Enrolled</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">Status</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">Price</th>
-                <th className="px-4 py-3 text-left font-medium text-gray-600">Action</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-gray-100">
-              {filtered.map((program) => (
-                <tr key={program.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3">
-                    <p className="font-medium text-gray-900">{program.title}</p>
-                    <p className="text-xs text-gray-500">{program.courses.length} courses · {program.level}</p>
-                  </td>
-                  <td className="px-4 py-3 text-gray-600">{program.category}</td>
-                  <td className="px-4 py-3 text-gray-600">{program.duration}</td>
-                  <td className="px-4 py-3 text-gray-600">{program.enrollmentCount}</td>
-                  <td className="px-4 py-3">
-                    <Badge variant={program.status === 'published' ? 'success' : 'warning'}>{program.status}</Badge>
-                  </td>
-                  <td className="px-4 py-3 font-medium">${program.price.toLocaleString()}</td>
-                  <td className="px-4 py-3">
-                    <button
-                      onClick={() => navigate(`/programs/${program.id}`)}
-                      className="px-3 py-1.5 bg-gold-500 hover:bg-gold-400 text-navy-900 text-xs font-medium rounded-lg transition-colors"
-                    >
-                      Enroll Now →
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      </div>
 
       <GridPagination totalItems={filtered.length} pageSize={10} currentPage={page} onPageChange={setPage} />
 

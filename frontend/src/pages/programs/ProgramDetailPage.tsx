@@ -11,8 +11,8 @@ import { Badge } from '@/components/ui/Badge';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Modal } from '@/components/ui/Modal';
-import programsData from '@/mock/programs.json';
-import coursesData from '@/mock/courses.json';
+import { programService } from '@/services/programService';
+import { getCourses } from '@/services/courseService';
 import toast from 'react-hot-toast';
 
 export function ProgramDetailPage() {
@@ -22,7 +22,7 @@ export function ProgramDetailPage() {
   const [enrolled, setEnrolled] = useState(false);
   const [learningStarted, setLearningStarted] = useState(false);
 
-  const program = programsData.find((p) => p.id === id);
+  const program = programService.getById(id || '');
 
   if (!program) {
     return (
@@ -36,7 +36,7 @@ export function ProgramDetailPage() {
   }
 
   const programCourses = program.courses.map((courseId) =>
-    coursesData.find((c) => c.id === courseId)
+    getCourses().find((c) => c.id === courseId)
   ).filter(Boolean);
 
   const handlePurchase = () => {

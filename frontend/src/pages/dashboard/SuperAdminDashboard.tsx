@@ -4,12 +4,12 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { StatsCard } from '@/components/ui/StatsCard';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import dashboardData from '@/mock/dashboard.json';
+import { dashboardService } from '@/services/dashboardService';
 
 const COLORS = ['#0a1628', '#d4a843', '#2563eb', '#10b981', '#f59e0b'];
 
 export function SuperAdminDashboard() {
-  const data = dashboardData.superAdmin;
+  const data = dashboardService.getSuperAdminData();
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">

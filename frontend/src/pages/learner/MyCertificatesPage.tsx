@@ -3,11 +3,11 @@ import { Award, Download, ExternalLink } from 'lucide-react';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import certificatesData from '@/mock/certificates.json';
+import { certificateService } from '@/services/certificateService';
 import toast from 'react-hot-toast';
 
 export function MyCertificatesPage() {
-  const myCerts = certificatesData.filter(c => c.userId === 'USR006');
+  const myCerts = certificateService.getAll().filter(c => c.userId === 'USR006');
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">

@@ -6,10 +6,10 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import dashboardData from '@/mock/dashboard.json';
+import { dashboardService } from '@/services/dashboardService';
 
 export function LearnerDashboard() {
-  const data = dashboardData.learner;
+  const data = dashboardService.getLearnerData();
   const navigate = useNavigate();
 
   return (

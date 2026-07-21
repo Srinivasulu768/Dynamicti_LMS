@@ -8,7 +8,7 @@ import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { FilterBar } from '@/components/ui/FilterBar';
 import { GridPagination } from '@/components/ui/GridPagination';
-import assessmentsData from '@/mock/assessments.json';
+import { assessmentService } from '@/services/assessmentService';
 import type { Assessment } from '@/types';
 import { PermissionGate } from '@/components/ui/PermissionGate';
 import toast from 'react-hot-toast';
@@ -21,7 +21,7 @@ export function AssessmentsPage() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [showPreviewModal, setShowPreviewModal] = useState(false);
-  const [assessments, setAssessments] = useState(assessmentsData as Assessment[]);
+  const [assessments, setAssessments] = useState<Assessment[]>(() => assessmentService.getAll());
   const [selectedAssessment, setSelectedAssessment] = useState<Assessment | null>(null);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
@@ -40,7 +40,8 @@ export function AssessmentsPage() {
 
   const handleDelete = () => {
     if (selectedAssessment) {
-      setAssessments(assessments.filter(a => a.id !== selectedAssessment.id));
+      assessmentService.delete(selectedAssessment.id);
+      setAssessments(assessmentService.getAll());
       setShowDeleteModal(false);
       setSelectedAssessment(null);
       toast.success('Assessment deleted!');
@@ -48,8 +49,13 @@ export function AssessmentsPage() {
   };
 
   const handleDuplicate = (assessment: Assessment) => {
-    const duplicate = { ...assessment, id: `ASM${Date.now()}`, title: `${assessment.title} (Copy)`, status: 'draft' as const };
-    setAssessments([duplicate, ...assessments]);
+    const duplicate = assessmentService.create({
+      ...assessment,
+      id: `ASM${Date.now()}`,
+      title: `${assessment.title} (Copy)`,
+      status: 'draft' as const,
+    });
+    setAssessments(assessmentService.getAll());
     toast.success('Assessment duplicated!');
   };
 

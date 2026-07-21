@@ -8,13 +8,13 @@ import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { FilterBar } from '@/components/ui/FilterBar';
-import organizationsData from '@/mock/organizations.json';
+import { organizationService } from '@/services/organizationService';
 import type { Organization } from '@/types';
 import toast from 'react-hot-toast';
 
 export function OrganizationsPage() {
   const [showAddModal, setShowAddModal] = useState(false);
-  const orgs = organizationsData as Organization[];
+  const orgs = organizationService.getAll();
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
 

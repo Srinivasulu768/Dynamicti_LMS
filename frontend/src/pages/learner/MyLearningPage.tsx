@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/Badge';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
-import dashboardData from '@/mock/dashboard.json';
+import { dashboardService } from '@/services/dashboardService';
 import toast from 'react-hot-toast';
 
 // Mock lesson data for the learning player
@@ -47,7 +47,7 @@ const courseLessons: Record<string, { id: number; title: string; duration: strin
 
 export function MyLearningPage() {
   const navigate = useNavigate();
-  const courses = dashboardData.learner.myCourses;
+  const courses = dashboardService.getLearnerData().myCourses;
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showLessonModal, setShowLessonModal] = useState(false);
   const [selectedCourse, setSelectedCourse] = useState<typeof courses[0] | null>(null);

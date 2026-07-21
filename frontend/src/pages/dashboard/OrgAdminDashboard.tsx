@@ -7,10 +7,10 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Badge } from '@/components/ui/Badge';
 import { Button } from '@/components/ui/Button';
-import dashboardData from '@/mock/dashboard.json';
+import { dashboardService } from '@/services/dashboardService';
 
 export function OrgAdminDashboard() {
-  const data = dashboardData.orgAdmin;
+  const data = dashboardService.getOrgAdminData();
   const navigate = useNavigate();
 
   return (

@@ -48,11 +48,13 @@ export interface Program {
   category: string;
   courses: string[];
   duration: string;
+  level?: string;
   status: 'draft' | 'published' | 'archived';
   enrollmentCount: number;
   price: number;
   startDate: string;
   endDate: string;
+  tags?: string[];
 }
 
 export interface Organization {
@@ -136,6 +138,7 @@ export interface Notification {
   read: boolean;
   date: string;
   userId?: string;
+  route?: string;
 }
 
 export interface Assessment {

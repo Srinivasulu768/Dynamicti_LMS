@@ -5,7 +5,7 @@ import { StatsCard } from '@/components/ui/StatsCard';
 import { Badge } from '@/components/ui/Badge';
 import { DataTable } from '@/components/ui/DataTable';
 import { FilterBar } from '@/components/ui/FilterBar';
-import paymentsData from '@/mock/payments.json';
+import { paymentService } from '@/services/paymentService';
 import type { Payment } from '@/types';
 
 const statusColors: Record<string, 'success' | 'warning' | 'danger' | 'info'> = {
@@ -13,7 +13,7 @@ const statusColors: Record<string, 'success' | 'warning' | 'danger' | 'info'> = 
 };
 
 export function PaymentsPage() {
-  const payments = paymentsData as Payment[];
+  const payments = paymentService.getAll();
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
 

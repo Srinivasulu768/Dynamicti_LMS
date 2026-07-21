@@ -286,15 +286,15 @@ export function RolesPermissionsPage() {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Module Permissions</label>
               <div className="border border-gray-200 rounded-lg overflow-hidden">
-                <div className="grid grid-cols-[1fr_50px_50px_50px_50px_50px] bg-gray-50 px-4 py-2 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                  <span>Module</span><span className="text-center">Read</span><span className="text-center">Create</span><span className="text-center">Edit</span><span className="text-center">Delete</span><span className="text-center">All</span>
+                <div className="grid grid-cols-[1fr_70px_70px_70px_70px_70px] bg-gray-50 px-4 py-2 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                  <span>Module</span><span className="text-center">Read</span><span className="text-center">Create</span><span className="text-center">Update</span><span className="text-center">Delete</span><span className="text-center">All</span>
                 </div>
                 <div className="max-h-80 overflow-y-auto divide-y divide-gray-100">
                   {modules.map((mod) => {
                     const perms = editPerms[mod] || { read: false, create: false, edit: false, delete: false };
                     const allChecked = perms.read && perms.create && perms.edit && perms.delete;
                     return (
-                      <div key={mod} className="grid grid-cols-[1fr_50px_50px_50px_50px_50px] px-4 py-2.5 hover:bg-gray-50 items-center">
+                      <div key={mod} className="grid grid-cols-[1fr_70px_70px_70px_70px_70px] px-4 py-2.5 hover:bg-gray-50 items-center">
                         <span className="text-sm text-gray-900">{mod}</span>
                         {(['read', 'create', 'edit', 'delete'] as (keyof PermissionSet)[]).map(action => (
                           <span key={action} className="flex justify-center">
@@ -331,15 +331,15 @@ export function RolesPermissionsPage() {
             <label className="block text-sm font-medium text-gray-700">Module Permissions <span className="text-red-500">*</span></label>
             {createErrors.permissions && <p className="text-xs text-red-500">{createErrors.permissions}</p>}
             <div className="border border-gray-200 rounded-lg overflow-hidden">
-              <div className="grid grid-cols-[1fr_50px_50px_50px_50px_50px] bg-gray-50 px-4 py-2 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
-                <span>Module</span><span className="text-center">Read</span><span className="text-center">Create</span><span className="text-center">Edit</span><span className="text-center">Delete</span><span className="text-center">All</span>
+              <div className="grid grid-cols-[1fr_70px_70px_70px_70px_70px] bg-gray-50 px-4 py-2 border-b border-gray-200 text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                <span>Module</span><span className="text-center">Read</span><span className="text-center">Create</span><span className="text-center">Update</span><span className="text-center">Delete</span><span className="text-center">All</span>
               </div>
               <div className="max-h-64 overflow-y-auto divide-y divide-gray-100">
                 {modules.map((mod) => {
                   const perms = newRolePerms[mod] || { read: false, create: false, edit: false, delete: false };
                   const allChecked = perms.read && perms.create && perms.edit && perms.delete;
                   return (
-                    <div key={mod} className="grid grid-cols-[1fr_50px_50px_50px_50px_50px] px-4 py-2.5 hover:bg-gray-50 items-center">
+                    <div key={mod} className="grid grid-cols-[1fr_70px_70px_70px_70px_70px] px-4 py-2.5 hover:bg-gray-50 items-center">
                       <span className="text-sm text-gray-700">{mod}</span>
                       {(['read', 'create', 'edit', 'delete'] as (keyof PermissionSet)[]).map(a => (
                         <span key={a} className="flex justify-center"><input type="checkbox" checked={perms[a]} onChange={() => toggleNewPerm(mod, a)} className="w-4 h-4 accent-navy-800 rounded cursor-pointer" /></span>

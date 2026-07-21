@@ -4,9 +4,8 @@ import { Bell, LogOut, User, ChevronDown, Home, ChevronRight } from 'lucide-reac
 import { useAuth } from '@/contexts/AuthContext';
 import { usePermissions } from '@/contexts/PermissionsContext';
 import { ProfileModal } from './ProfileModal';
-import { ROLE_LABELS, formatRoleLabel } from '@/constants/roles';
-import notificationsData from '@/mock/notifications.json';
-import type { Role } from '@/types';
+import { formatRoleLabel } from '@/constants/roles';
+import { notificationService } from '@/services/notificationService';
 
 type OpenPanel = 'role' | 'notifications' | 'profile' | null;
 
@@ -96,7 +95,8 @@ export function Header() {
     };
   }, [openPanel, closeAll]);
 
-  const unreadCount = notificationsData.filter(n => !n.read).length;
+  const notifications = notificationService.getAll();
+  const unreadCount = notifications.filter(n => !n.read).length;
   const handleLogout = () => { closeAll(); logout(); navigate('/login'); };
 
   if (!user) return null;
@@ -137,7 +137,7 @@ export function Header() {
               {allRoles.map(({ id, label }) => (
                 <button
                   key={id}
-                  onClick={() => { switchRole(id); closeAll(); }}
+                  onClick={() => { switchRole(id); closeAll(); navigate('/dashboard'); }}
                   className={`w-full px-4 py-2.5 text-left text-sm flex items-center justify-between hover:bg-gray-50 transition-colors ${user.role === id ? 'text-navy-800 font-semibold bg-navy-800/3' : 'text-gray-600'}`}
                 >
                   {label}
@@ -171,10 +171,10 @@ export function Header() {
                 )}
               </div>
               <div className="max-h-72 overflow-y-auto">
-                {notificationsData.slice(0, 6).map((notif) => (
+                {notifications.slice(0, 6).map((notif) => (
                   <div
                     key={notif.id}
-                    onClick={() => { navigate((notif as any).route || '/notifications'); closeAll(); }}
+                    onClick={() => { navigate(notif.route || '/notifications'); closeAll(); }}
                     className={`px-4 py-3 border-b border-gray-50 hover:bg-gray-50 cursor-pointer ${!notif.read ? 'bg-blue-50/40' : ''}`}
                   >
                     <div className="flex items-start gap-2">
