@@ -1,4 +1,6 @@
-export type Role = 'super_admin' | 'training_admin' | 'content_manager' | 'instructor' | 'org_admin' | 'learner';
+/** Known system roles. Custom roles are also valid as any string. */
+export type SystemRole = 'super_admin' | 'training_admin' | 'content_manager' | 'instructor' | 'org_admin' | 'learner';
+export type Role = string;
 
 export interface User {
   id: string;

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/Button';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { usePermissions } from '@/contexts/PermissionsContext';
+import { loadUsers, countUsersByRole } from '@/services/userService';
 import seedRoles from '@/mock/roles.json';
 import toast from 'react-hot-toast';
 
@@ -60,6 +61,9 @@ export function RolesPermissionsPage() {
     return stored;
   });
   const { permissions, updateRolePermissions, deleteRolePermissions } = usePermissions();
+
+  // Dynamic user count per role — always current
+  const userCounts = countUsersByRole(loadUsers());
 
   // Sync: if permissions has roles not in rolesList, add them as custom roles
   const displayRoles = (() => {
@@ -203,6 +207,15 @@ export function RolesPermissionsPage() {
   // ─── Delete Handlers ─────────────────
   const handleDeleteRole = () => {
     if (!deleteTarget) return;
+
+    // Check if any users are assigned to this role
+    const assignedCount = userCounts[deleteTarget.id] || 0;
+    if (assignedCount > 0) {
+      toast.error(`Cannot delete "${deleteTarget.name}" — ${assignedCount} user${assignedCount > 1 ? 's are' : ' is'} assigned to this role. Please reassign or remove them first.`);
+      setShowDeleteModal(false);
+      return;
+    }
+
     const updated = displayRoles.filter(r => r.id !== deleteTarget.id);
     saveRoles(updated);
     // Properly remove from permissions context
@@ -233,7 +246,7 @@ export function RolesPermissionsPage() {
             <h3 className="font-semibold text-gray-900 mb-1">{role.name}</h3>
             <p className="text-sm text-gray-500 mb-3">{role.description}</p>
             <div className="flex items-center justify-between pt-3 border-t border-gray-100">
-              <span className="text-xs text-gray-500">{role.users} users assigned</span>
+              <span className="text-xs text-gray-500">{userCounts[role.id] || 0} users assigned</span>
               <div className="flex items-center gap-1">
                 <button
                   onClick={() => handleEditRole(role)}

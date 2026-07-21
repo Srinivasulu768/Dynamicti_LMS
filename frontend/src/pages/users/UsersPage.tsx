@@ -9,12 +9,12 @@ import { FilterBar } from '@/components/ui/FilterBar';
 import { DataTable } from '@/components/ui/DataTable';
 import { PermissionGate } from '@/components/ui/PermissionGate';
 import { usePermissions } from '@/contexts/PermissionsContext';
-import { ROLE_LABELS, ORG_REQUIRED_ROLES } from '@/constants/roles';
-import usersData from '@/mock/users.json';
+import { ORG_REQUIRED_ROLES, formatRoleLabel } from '@/constants/roles';
+import { loadUsers, saveUsers } from '@/services/userService';
 import type { User, Role } from '@/types';
 import toast from 'react-hot-toast';
 
-const roleColors: Record<Role, 'gold' | 'info' | 'success' | 'warning' | 'danger' | 'default'> = {
+const roleColors: Record<string, 'gold' | 'info' | 'success' | 'warning' | 'danger' | 'default'> = {
   super_admin: 'danger', training_admin: 'warning', content_manager: 'info',
   instructor: 'success', org_admin: 'gold', learner: 'default',
 };
@@ -26,7 +26,16 @@ export function UsersPage() {
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedUser, setSelectedUser] = useState<User | null>(null);
-  const [users, setUsers] = useState(usersData as User[]);
+  const [users, setUsers] = useState<User[]>(loadUsers);
+
+  // Persist users on every change
+  const updateUsers = (updater: (prev: User[]) => User[]) => {
+    setUsers(prev => {
+      const next = updater(prev);
+      saveUsers(next);
+      return next;
+    });
+  };
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
   const [formErrors, setFormErrors] = useState<Record<string, string>>({});
@@ -42,7 +51,7 @@ export function UsersPage() {
   const { permissions: allPerms } = usePermissions();
   const allRoleOptions = Object.keys(allPerms).map(roleId => ({
     value: roleId,
-    label: ROLE_LABELS[roleId as Role] || roleId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+    label: formatRoleLabel(roleId),
   }));
 
   const handleAddUser = (e: React.FormEvent<HTMLFormElement>) => {
@@ -85,7 +94,7 @@ export function UsersPage() {
       phone: (form.elements.namedItem('phone') as HTMLInputElement).value.trim() || undefined,
       joinDate: new Date().toISOString().split('T')[0],
     } as User;
-    setUsers(prev => [newUser, ...prev]);
+    updateUsers(prev => [newUser, ...prev]);
     toast.success('User created successfully!');
     setShowAddModal(false);
     setAddFormRole('learner');
@@ -120,7 +129,7 @@ export function UsersPage() {
     }
 
     // Update user in local state
-    setUsers(prev => prev.map(u => {
+    updateUsers(prev => prev.map(u => {
       if (u.id !== selectedUser?.id) return u;
       return {
         ...u,
@@ -150,7 +159,7 @@ export function UsersPage() {
 
   const handleDelete = () => {
     if (selectedUser) {
-      setUsers(users.filter(u => u.id !== selectedUser.id));
+      updateUsers(prev => prev.filter(u => u.id !== selectedUser.id));
       setShowDeleteModal(false);
       toast.success('User deleted');
     }
@@ -173,7 +182,7 @@ export function UsersPage() {
     },
     { key: 'role', label: 'Role', render: (user: User) => {
       const color = roleColors[user.role] || 'default';
-      const label = ROLE_LABELS[user.role] || user.role.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      const label = formatRoleLabel(user.role);
       return <Badge variant={color}>{label}</Badge>;
     }},
     { key: 'organization', label: 'Organization', render: (user: User) => user.organization || '—' },

@@ -4,7 +4,7 @@ import { Bell, LogOut, User, ChevronDown, Home, ChevronRight } from 'lucide-reac
 import { useAuth } from '@/contexts/AuthContext';
 import { usePermissions } from '@/contexts/PermissionsContext';
 import { ProfileModal } from './ProfileModal';
-import { ROLE_LABELS } from '@/constants/roles';
+import { ROLE_LABELS, formatRoleLabel } from '@/constants/roles';
 import notificationsData from '@/mock/notifications.json';
 import type { Role } from '@/types';
 
@@ -53,7 +53,7 @@ export function Header() {
   // Build dynamic role list from permissions context (includes custom roles)
   const allRoles = Object.keys(permissions).map(roleId => ({
     id: roleId,
-    label: ROLE_LABELS[roleId as Role] || roleId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+    label: formatRoleLabel(roleId),
   }));
 
   const roleRef      = useRef<HTMLDivElement>(null);
@@ -127,7 +127,7 @@ export function Header() {
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-navy-800/5 hover:bg-navy-800/10 text-navy-800 border border-navy-800/10 transition-colors"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
-            {ROLE_LABELS[user.role] || user.role.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+            {formatRoleLabel(user.role)}
             <ChevronDown className={`w-3 h-3 opacity-50 transition-transform duration-200 ${openPanel === 'role' ? 'rotate-180' : ''}`} />
           </button>
 
@@ -211,7 +211,7 @@ export function Header() {
               <p className="text-sm font-semibold text-gray-900 leading-tight">
                 {user.firstName} {user.lastName}
               </p>
-              <p className="text-[11px] text-gray-400 leading-tight">{ROLE_LABELS[user.role] || user.role.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</p>
+              <p className="text-[11px] text-gray-400 leading-tight">{formatRoleLabel(user.role)}</p>
             </div>
             <div className="w-8 h-8 bg-navy-800 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-white text-xs font-bold">{user.firstName[0]}{user.lastName[0]}</span>
