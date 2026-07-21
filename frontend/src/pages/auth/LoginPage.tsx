@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { Eye, EyeOff, Shield } from 'lucide-react';
 import { useAuth, demoAccounts } from '@/contexts/AuthContext';
@@ -120,9 +120,9 @@ export function LoginPage() {
                 <input type="checkbox" className="rounded border-gray-300" />
                 <span className="text-sm text-gray-600">Remember me</span>
               </label>
-              <button type="button" className="text-sm text-navy-800 font-medium hover:underline">
+              <Link to="/forgot-password" className="text-sm text-navy-800 font-medium hover:underline">
                 Forgot Password?
-              </button>
+              </Link>
             </div>
             <Button type="submit" className="w-full" disabled={loading}>
               {loading ? 'Signing In...' : 'Sign In'}

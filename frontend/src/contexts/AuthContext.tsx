@@ -29,11 +29,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const isAuthenticated = !!user;
 
-  const login = (email: string, _password: string): boolean => {
+  const login = (email: string, password: string): boolean => {
     const found = loadUsers().find(
       (u) => u.email.toLowerCase() === email.toLowerCase()
     );
     if (found) {
+      // If user has a password set, validate it; demo users (no password) accept any password
+      if (found.password && found.password !== password) {
+        return false;
+      }
       setUser(found);
       localStorage.setItem('dti_user', JSON.stringify(found));
       return true;

@@ -60,6 +60,7 @@ export function UsersPage() {
     const firstName = (form.elements.namedItem('firstName') as HTMLInputElement).value.trim();
     const lastName = (form.elements.namedItem('lastName') as HTMLInputElement).value.trim();
     const email = (form.elements.namedItem('email') as HTMLInputElement).value.trim();
+    const password = (form.elements.namedItem('password') as HTMLInputElement).value;
     const orgSelect = form.elements.namedItem('organization') as HTMLSelectElement | null;
     const organization = orgSelect?.value?.trim() || '';
 
@@ -69,6 +70,8 @@ export function UsersPage() {
     if (!email) errors.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) errors.email = 'Enter a valid email address';
     else if (users.some(u => u.email.toLowerCase() === email.toLowerCase())) errors.email = 'This email already exists';
+    if (!password) errors.password = 'Password is required';
+    else if (password.length < 4) errors.password = 'Password must be at least 4 characters';
 
     // Validate organization — only mandatory for Org Admin
     if (isOrgRequired(addFormRole) && !organization) {
@@ -88,6 +91,7 @@ export function UsersPage() {
       firstName,
       lastName,
       email,
+      password,
       role: (form.elements.namedItem('role') as HTMLSelectElement).value as Role,
       status: 'active',
       organization: organization || undefined,
@@ -239,6 +243,7 @@ export function UsersPage() {
             <Input label="Last Name *" placeholder="Last name" name="lastName" error={formErrors.lastName} />
           </div>
           <Input label="Email *" type="email" placeholder="email@test.com" name="email" error={formErrors.email} />
+          <Input label="Password *" type="password" placeholder="Enter password" name="password" error={formErrors.password} />
           
           {/* Role selector */}
           <div className="space-y-1">
