@@ -102,7 +102,7 @@ export function InstructorsPage() {
             <Input label="First Name" placeholder="First name" required />
             <Input label="Last Name" placeholder="Last name" required />
           </div>
-          <Input label="Email" type="email" placeholder="instructor@dynamicti.com" required />
+          <Input label="Email" type="email" placeholder="instructor@test.com" required />
           <Input label="Specialization" placeholder="e.g., Cybersecurity" />
           <Input label="Certifications" placeholder="CISSP, CEH, etc." />
           <Input label="Years of Experience" type="number" placeholder="5" />

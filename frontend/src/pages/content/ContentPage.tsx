@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
+import { PermissionGate } from '@/components/ui/PermissionGate';
 import toast from 'react-hot-toast';
 
 const initialContent = [
@@ -74,12 +75,16 @@ export function ContentPage() {
           <p className="text-sm text-gray-500 mt-1">Manage modules, lessons, and media</p>
         </div>
         <div className="flex gap-2">
-          <Button variant="outline" onClick={() => setShowUploadModal(true)}>
-            <Upload className="w-4 h-4 mr-1" /> Upload
-          </Button>
-          <Button onClick={() => setShowCreateModal(true)}>
-            <Plus className="w-4 h-4 mr-1" /> Create Content
-          </Button>
+          <PermissionGate module="Content" action="create">
+            <Button variant="outline" onClick={() => setShowUploadModal(true)}>
+              <Upload className="w-4 h-4 mr-1" /> Upload
+            </Button>
+          </PermissionGate>
+          <PermissionGate module="Content" action="create">
+            <Button onClick={() => setShowCreateModal(true)}>
+              <Plus className="w-4 h-4 mr-1" /> Create Content
+            </Button>
+          </PermissionGate>
         </div>
       </div>
 

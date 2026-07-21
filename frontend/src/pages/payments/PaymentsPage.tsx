@@ -56,7 +56,7 @@ export function PaymentsPage() {
         ]}
       />
 
-      <DataTable data={filtered as unknown as Record<string, unknown>[]} columns={columns as any} pageSize={8} searchable={false} />
+      <DataTable data={filtered as unknown as Record<string, unknown>[]} columns={columns as any} pageSize={10} searchable={false} />
     </motion.div>
   );
 }

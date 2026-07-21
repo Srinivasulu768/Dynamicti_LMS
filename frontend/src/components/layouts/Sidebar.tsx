@@ -9,6 +9,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSidebar } from '@/contexts/SidebarContext';
+import { usePermissions } from '@/contexts/PermissionsContext';
 import { navigationItems } from '@/constants/navigation';
 import { cn } from '@/utils/cn';
 
@@ -68,10 +69,13 @@ function SidebarItem({ item, isCollapsed }: { item: typeof navigationItems[0]; i
 export function Sidebar() {
   const { user } = useAuth();
   const { isCollapsed, toggle } = useSidebar();
+  const { canAccess } = usePermissions();
 
   if (!user) return null;
 
-  const visibleItems = navigationItems.filter(item => item.roles.includes(user.role));
+  const visibleItems = navigationItems.filter(item =>
+    canAccess(user.role, item.module)
+  );
 
   return (
     <motion.aside

@@ -6,6 +6,7 @@ import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
+import { PermissionGate } from '@/components/ui/PermissionGate';
 import toast from 'react-hot-toast';
 
 const initialVideos = [
@@ -47,9 +48,11 @@ export function MediaLibraryPage() {
           <h1 className="text-2xl font-bold text-gray-900">Media Library</h1>
           <p className="text-sm text-gray-500 mt-1">{videos.length} videos</p>
         </div>
-        <Button onClick={() => setShowUploadModal(true)}>
-          <Upload className="w-4 h-4 mr-1" /> Upload Video
-        </Button>
+        <PermissionGate module="Media Library" action="create">
+          <Button onClick={() => setShowUploadModal(true)}>
+            <Upload className="w-4 h-4 mr-1" /> Upload Video
+          </Button>
+        </PermissionGate>
       </div>
 
       {/* Search */}

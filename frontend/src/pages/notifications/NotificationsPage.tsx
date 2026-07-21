@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { Check, CheckCheck, Trash2, Info, AlertTriangle, CheckCircle, XCircle, ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { FilterBar } from '@/components/ui/FilterBar';
+import { GridPagination } from '@/components/ui/GridPagination';
 import notificationsData from '@/mock/notifications.json';
 import toast from 'react-hot-toast';
 
@@ -24,9 +26,23 @@ const typeColors = { info: 'text-blue-500', warning: 'text-yellow-500', success:
 const typeBg     = { info: 'bg-blue-50', warning: 'bg-yellow-50', success: 'bg-green-50', error: 'bg-red-50' };
 const typeBorder = { info: 'border-blue-200', warning: 'border-yellow-200', success: 'border-green-200', error: 'border-red-200' };
 
+const PAGE_SIZE = 10;
+
 export function NotificationsPage() {
   const navigate = useNavigate();
   const [notifications, setNotifications] = useState<NotificationItem[]>(notificationsData as NotificationItem[]);
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState<Record<string, string>>({});
+  const [page, setPage] = useState(1);
+
+  const filtered = notifications.filter(n => {
+    const matchSearch = !search || n.title.toLowerCase().includes(search.toLowerCase()) || n.message.toLowerCase().includes(search.toLowerCase());
+    const matchType = !filters.type || filters.type === 'all' || n.type === filters.type;
+    const matchRead = !filters.read || filters.read === 'all' || (filters.read === 'unread' ? !n.read : n.read);
+    return matchSearch && matchType && matchRead;
+  });
+
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const markRead = (id: string) => {
     setNotifications(prev => prev.map(n => n.id === id ? { ...n, read: true } : n));
@@ -50,24 +66,33 @@ export function NotificationsPage() {
   const unread = notifications.filter(n => !n.read).length;
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-500">{unread} unread · {notifications.length} total</p>
+        <p className="text-sm text-gray-500">{unread} unread · {filtered.length} total</p>
         <Button variant="outline" size="sm" onClick={markAllRead}>
           <CheckCheck className="w-4 h-4 mr-1" /> Mark All Read
         </Button>
       </div>
 
+      <FilterBar
+        searchPlaceholder="Search notifications..."
+        onSearchChange={(v) => { setSearch(v); setPage(1); }}
+        onFilterChange={(key, val) => { setFilters(prev => ({ ...prev, [key]: val })); setPage(1); }}
+        filters={[
+          { key: 'type', placeholder: 'All Types', options: [{ value: 'info', label: 'Info' }, { value: 'warning', label: 'Warning' }, { value: 'success', label: 'Success' }, { value: 'error', label: 'Error' }] },
+          { key: 'read', placeholder: 'All', options: [{ value: 'unread', label: 'Unread' }, { value: 'read', label: 'Read' }] },
+        ]}
+      />
+
       <div className="space-y-3">
-        {notifications.length === 0 && (
+        {paginated.length === 0 && (
           <div className="text-center py-16 text-gray-400">
             <CheckCircle className="w-12 h-12 mx-auto mb-3 text-gray-200" />
-            <p className="font-medium">All caught up!</p>
-            <p className="text-sm">No notifications to show.</p>
+            <p className="font-medium">No notifications found</p>
           </div>
         )}
 
-        {notifications.map((notif) => {
+        {paginated.map((notif) => {
           const Icon = typeIcons[notif.type] || Info;
           return (
             <Card
@@ -126,6 +151,8 @@ export function NotificationsPage() {
           );
         })}
       </div>
+
+      <GridPagination totalItems={filtered.length} pageSize={PAGE_SIZE} currentPage={page} onPageChange={setPage} />
     </motion.div>
   );
 }

@@ -11,7 +11,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className="space-y-1">
         {label && (
-          <label className="block text-sm font-medium text-gray-700">{label}</label>
+          <label className="block text-sm font-medium text-gray-700">
+            {label.endsWith('*') ? (
+              <>{label.slice(0, -1).trim()} <span className="text-red-500">*</span></>
+            ) : label}
+          </label>
         )}
         <input
           ref={ref}

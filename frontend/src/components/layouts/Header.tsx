@@ -2,18 +2,11 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { Bell, LogOut, User, ChevronDown, Home, ChevronRight } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { usePermissions } from '@/contexts/PermissionsContext';
 import { ProfileModal } from './ProfileModal';
+import { ROLE_LABELS } from '@/constants/roles';
 import notificationsData from '@/mock/notifications.json';
 import type { Role } from '@/types';
-
-const roleLabels: Record<Role, string> = {
-  super_admin:     'Super Admin',
-  training_admin:  'Training Admin',
-  content_manager: 'Content Manager',
-  instructor:      'Instructor',
-  org_admin:       'Organization Admin',
-  learner:         'Learner',
-};
 
 type OpenPanel = 'role' | 'notifications' | 'profile' | null;
 
@@ -50,11 +43,18 @@ function Breadcrumb() {
 
 export function Header() {
   const { user, logout, switchRole } = useAuth();
+  const { permissions } = usePermissions();
   const navigate = useNavigate();
   const location = useLocation();
 
   const [openPanel, setOpenPanel] = useState<OpenPanel>(null);
   const [showProfileModal, setShowProfileModal] = useState(false);
+
+  // Build dynamic role list from permissions context (includes custom roles)
+  const allRoles = Object.keys(permissions).map(roleId => ({
+    id: roleId,
+    label: ROLE_LABELS[roleId as Role] || roleId.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+  }));
 
   const roleRef      = useRef<HTMLDivElement>(null);
   const notifRef     = useRef<HTMLDivElement>(null);
@@ -109,7 +109,7 @@ export function Header() {
       <div className="flex items-center gap-3">
         <Link to="/dashboard" className="flex items-center gap-2 flex-shrink-0">
           <div className="w-7 h-7 bg-gold-500 rounded-md flex items-center justify-center">
-            <span className="text-navy-900 font-black text-[9px] leading-none">DT</span>
+            <span className="text-navy-900 font-black text-[9px] leading-none">DTI</span>
           </div>
           <span className="text-sm font-bold text-navy-900 hidden md:block">DynamicTI</span>
         </Link>
@@ -127,21 +127,21 @@ export function Header() {
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-navy-800/5 hover:bg-navy-800/10 text-navy-800 border border-navy-800/10 transition-colors"
           >
             <span className="w-1.5 h-1.5 rounded-full bg-green-500 flex-shrink-0" />
-            {roleLabels[user.role]}
+            {ROLE_LABELS[user.role] || user.role.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
             <ChevronDown className={`w-3 h-3 opacity-50 transition-transform duration-200 ${openPanel === 'role' ? 'rotate-180' : ''}`} />
           </button>
 
           {openPanel === 'role' && (
-            <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-xl shadow-xl border border-gray-200 z-50 overflow-hidden">
+            <div className="absolute right-0 top-full mt-2 w-52 bg-white rounded-xl shadow-xl border border-gray-200 z-50 overflow-hidden max-h-80 overflow-y-auto">
               <p className="px-4 pt-3 pb-1.5 text-[10px] font-bold text-gray-400 uppercase tracking-wider">Switch Role</p>
-              {Object.entries(roleLabels).map(([role, label]) => (
+              {allRoles.map(({ id, label }) => (
                 <button
-                  key={role}
-                  onClick={() => { switchRole(role as Role); closeAll(); }}
-                  className={`w-full px-4 py-2.5 text-left text-sm flex items-center justify-between hover:bg-gray-50 transition-colors ${user.role === role ? 'text-navy-800 font-semibold bg-navy-800/3' : 'text-gray-600'}`}
+                  key={id}
+                  onClick={() => { switchRole(id); closeAll(); }}
+                  className={`w-full px-4 py-2.5 text-left text-sm flex items-center justify-between hover:bg-gray-50 transition-colors ${user.role === id ? 'text-navy-800 font-semibold bg-navy-800/3' : 'text-gray-600'}`}
                 >
                   {label}
-                  {user.role === role && <span className="w-2 h-2 bg-gold-500 rounded-full" />}
+                  {user.role === id && <span className="w-2 h-2 bg-gold-500 rounded-full" />}
                 </button>
               ))}
             </div>
@@ -211,7 +211,7 @@ export function Header() {
               <p className="text-sm font-semibold text-gray-900 leading-tight">
                 {user.firstName} {user.lastName}
               </p>
-              <p className="text-[11px] text-gray-400 leading-tight">{roleLabels[user.role]}</p>
+              <p className="text-[11px] text-gray-400 leading-tight">{ROLE_LABELS[user.role] || user.role.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</p>
             </div>
             <div className="w-8 h-8 bg-navy-800 rounded-full flex items-center justify-center flex-shrink-0">
               <span className="text-white text-xs font-bold">{user.firstName[0]}{user.lastName[0]}</span>

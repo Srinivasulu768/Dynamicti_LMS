@@ -6,9 +6,14 @@ import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
+import { FilterBar } from '@/components/ui/FilterBar';
+import { GridPagination } from '@/components/ui/GridPagination';
 import assessmentsData from '@/mock/assessments.json';
 import type { Assessment } from '@/types';
+import { PermissionGate } from '@/components/ui/PermissionGate';
 import toast from 'react-hot-toast';
+
+const PAGE_SIZE = 10;
 
 export function AssessmentsPage() {
   const [showAddModal, setShowAddModal] = useState(false);
@@ -18,6 +23,18 @@ export function AssessmentsPage() {
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [assessments, setAssessments] = useState(assessmentsData as Assessment[]);
   const [selectedAssessment, setSelectedAssessment] = useState<Assessment | null>(null);
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState<Record<string, string>>({});
+  const [page, setPage] = useState(1);
+
+  const filtered = assessments.filter(a => {
+    const matchSearch = !search || a.title.toLowerCase().includes(search.toLowerCase()) || a.courseName.toLowerCase().includes(search.toLowerCase());
+    const matchType = !filters.type || filters.type === 'all' || a.type === filters.type;
+    const matchStatus = !filters.status || filters.status === 'all' || a.status === filters.status;
+    return matchSearch && matchType && matchStatus;
+  });
+
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const typeIcons: Record<string, typeof ClipboardCheck> = { quiz: ClipboardCheck, exam: FileCheck, assignment: Target };
 
@@ -39,17 +56,26 @@ export function AssessmentsPage() {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Assessments</h1>
-          <p className="text-sm text-gray-500 mt-1">{assessments.length} assessments</p>
-        </div>
-        <Button onClick={() => setShowAddModal(true)}>
-          <Plus className="w-4 h-4 mr-1" /> Create Assessment
-        </Button>
+        <p className="text-sm text-gray-500">{filtered.length} assessments</p>
+        <PermissionGate module="Assessments" action="create">
+          <Button onClick={() => setShowAddModal(true)}>
+            <Plus className="w-4 h-4 mr-1" /> Create Assessment
+          </Button>
+        </PermissionGate>
       </div>
 
+      <FilterBar
+        searchPlaceholder="Search assessments..."
+        onSearchChange={(v) => { setSearch(v); setPage(1); }}
+        onFilterChange={(key, val) => { setFilters(prev => ({ ...prev, [key]: val })); setPage(1); }}
+        filters={[
+          { key: 'type', placeholder: 'All Types', options: [{ value: 'quiz', label: 'Quiz' }, { value: 'exam', label: 'Exam' }, { value: 'assignment', label: 'Assignment' }, { value: 'survey', label: 'Survey' }] },
+          { key: 'status', placeholder: 'All Status', options: [{ value: 'published', label: 'Published' }, { value: 'draft', label: 'Draft' }] },
+        ]}
+      />
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {assessments.map((assessment) => {
+        {paginated.map((assessment) => {
           const Icon = typeIcons[assessment.type] || ClipboardCheck;
           return (
             <Card key={assessment.id} hover>
@@ -105,6 +131,8 @@ export function AssessmentsPage() {
           );
         })}
       </div>
+
+      <GridPagination totalItems={filtered.length} pageSize={PAGE_SIZE} currentPage={page} onPageChange={setPage} />
 
       {/* Create Modal */}
       <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Create Assessment" size="lg">

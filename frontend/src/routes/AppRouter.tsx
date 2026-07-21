@@ -40,48 +40,40 @@ export function AppRouter() {
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
         {/* Protected Layout */}
-        <Route
-          element={
-            <ProtectedRoute>
-              <MainLayout />
-            </ProtectedRoute>
-          }
-        >
+        <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<ProtectedRoute module="Dashboard"><DashboardPage /></ProtectedRoute>} />
 
-          {/* Admin Routes */}
-          <Route path="/users" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin']}><UsersPage /></ProtectedRoute>} />
-          <Route path="/roles" element={<ProtectedRoute allowedRoles={['super_admin']}><RolesPermissionsPage /></ProtectedRoute>} />
-          <Route path="/courses" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin', 'content_manager', 'instructor']}><CoursesPage /></ProtectedRoute>} />
-          <Route path="/courses/:id" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin', 'content_manager', 'instructor', 'learner', 'org_admin']}><CourseDetailPage /></ProtectedRoute>} />
-          <Route path="/programs" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin', 'content_manager']}><ProgramsPage /></ProtectedRoute>} />
-          <Route path="/programs/:id" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin', 'content_manager', 'learner', 'org_admin']}><ProgramDetailPage /></ProtectedRoute>} />
-          <Route path="/content" element={<ProtectedRoute allowedRoles={['super_admin', 'content_manager']}><ContentPage /></ProtectedRoute>} />
-          <Route path="/assessments" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin', 'content_manager', 'instructor']}><AssessmentsPage /></ProtectedRoute>} />
-          <Route path="/enrollments" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin', 'org_admin']}><EnrollmentsPage /></ProtectedRoute>} />
-          <Route path="/sessions" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin', 'instructor']}><SessionsPage /></ProtectedRoute>} />
-          <Route path="/instructors" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin']}><InstructorsPage /></ProtectedRoute>} />
-          <Route path="/organizations" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin']}><OrganizationsPage /></ProtectedRoute>} />
-          <Route path="/payments" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin']}><PaymentsPage /></ProtectedRoute>} />
-          <Route path="/certificates" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin', 'org_admin']}><CertificatesPage /></ProtectedRoute>} />
-          <Route path="/reports" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin', 'org_admin']}><ReportsPage /></ProtectedRoute>} />
-          <Route path="/inquiries" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin']}><InquiriesPage /></ProtectedRoute>} />
-          <Route path="/notifications" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin']}><NotificationsPage /></ProtectedRoute>} />
-          <Route path="/media-library" element={<ProtectedRoute allowedRoles={['super_admin', 'content_manager']}><MediaLibraryPage /></ProtectedRoute>} />
+          {/* Module routes — access checked via permissions context */}
+          <Route path="/users" element={<ProtectedRoute module="Users"><UsersPage /></ProtectedRoute>} />
+          <Route path="/roles" element={<ProtectedRoute module="Roles"><RolesPermissionsPage /></ProtectedRoute>} />
+          <Route path="/courses" element={<ProtectedRoute module="Courses"><CoursesPage /></ProtectedRoute>} />
+          <Route path="/courses/:id" element={<ProtectedRoute module="Courses"><CourseDetailPage /></ProtectedRoute>} />
+          <Route path="/programs" element={<ProtectedRoute module="Programs"><ProgramsPage /></ProtectedRoute>} />
+          <Route path="/programs/:id" element={<ProtectedRoute module="Programs"><ProgramDetailPage /></ProtectedRoute>} />
+          <Route path="/content" element={<ProtectedRoute module="Content"><ContentPage /></ProtectedRoute>} />
+          <Route path="/assessments" element={<ProtectedRoute module="Assessments"><AssessmentsPage /></ProtectedRoute>} />
+          <Route path="/enrollments" element={<ProtectedRoute module="Enrollments"><EnrollmentsPage /></ProtectedRoute>} />
+          <Route path="/sessions" element={<ProtectedRoute module="Sessions"><SessionsPage /></ProtectedRoute>} />
+          <Route path="/instructors" element={<ProtectedRoute module="Instructors"><InstructorsPage /></ProtectedRoute>} />
+          <Route path="/organizations" element={<ProtectedRoute module="Organizations"><OrganizationsPage /></ProtectedRoute>} />
+          <Route path="/payments" element={<ProtectedRoute module="Payments"><PaymentsPage /></ProtectedRoute>} />
+          <Route path="/certificates" element={<ProtectedRoute module="Certificates"><CertificatesPage /></ProtectedRoute>} />
+          <Route path="/reports" element={<ProtectedRoute module="Reports"><ReportsPage /></ProtectedRoute>} />
+          <Route path="/inquiries" element={<ProtectedRoute module="Inquiries"><InquiriesPage /></ProtectedRoute>} />
+          <Route path="/notifications" element={<ProtectedRoute module="Notifications"><NotificationsPage /></ProtectedRoute>} />
+          <Route path="/media-library" element={<ProtectedRoute module="Media Library"><MediaLibraryPage /></ProtectedRoute>} />
 
-          {/* Learner Routes */}
-          <Route path="/my-learning" element={<ProtectedRoute allowedRoles={['learner']}><MyLearningPage /></ProtectedRoute>} />
-          <Route path="/my-schedule" element={<ProtectedRoute allowedRoles={['learner', 'instructor']}><MySchedulePage /></ProtectedRoute>} />
-          <Route path="/my-certificates" element={<ProtectedRoute allowedRoles={['learner']}><MyCertificatesPage /></ProtectedRoute>} />
-          <Route path="/my-assessments" element={<ProtectedRoute allowedRoles={['learner']}><MyAssessmentsPage /></ProtectedRoute>} />
+          {/* Personal modules */}
+          <Route path="/my-learning" element={<ProtectedRoute module="My Learning"><MyLearningPage /></ProtectedRoute>} />
+          <Route path="/my-schedule" element={<ProtectedRoute module="My Schedule"><MySchedulePage /></ProtectedRoute>} />
+          <Route path="/my-certificates" element={<ProtectedRoute module="My Certificates"><MyCertificatesPage /></ProtectedRoute>} />
+          <Route path="/my-assessments" element={<ProtectedRoute module="My Assessments"><MyAssessmentsPage /></ProtectedRoute>} />
+          <Route path="/my-courses" element={<ProtectedRoute module="My Courses"><MyCoursesPage /></ProtectedRoute>} />
 
-          {/* Instructor Routes */}
-          <Route path="/my-courses" element={<ProtectedRoute allowedRoles={['instructor']}><MyCoursesPage /></ProtectedRoute>} />
-
-          {/* Settings */}
-          <Route path="/settings" element={<ProtectedRoute allowedRoles={['super_admin', 'training_admin']}><SettingsPage /></ProtectedRoute>} />
-          <Route path="/system-monitor" element={<ProtectedRoute allowedRoles={['super_admin']}><SystemMonitorPage /></ProtectedRoute>} />
+          {/* Admin */}
+          <Route path="/settings" element={<ProtectedRoute module="Settings"><SettingsPage /></ProtectedRoute>} />
+          <Route path="/system-monitor" element={<ProtectedRoute module="System Monitor"><SystemMonitorPage /></ProtectedRoute>} />
         </Route>
 
         {/* 404 */}

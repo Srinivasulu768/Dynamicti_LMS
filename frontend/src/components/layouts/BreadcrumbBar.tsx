@@ -1,6 +1,7 @@
 import { useLocation } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
 import { useSidebar } from '@/contexts/SidebarContext';
+import { ROLE_LABELS } from '@/constants/roles';
 
 const pageTitles: Record<string, { title: string; subtitle: string }> = {
   dashboard:        { title: 'Dashboard',            subtitle: 'Overview of your platform activity' },
@@ -29,15 +30,6 @@ const pageTitles: Record<string, { title: string; subtitle: string }> = {
   'system-monitor': { title: 'System Monitor',        subtitle: 'System health and activity logs' },
 };
 
-const roleLabels: Record<string, string> = {
-  super_admin:     'Super Admin',
-  training_admin:  'Training Admin',
-  content_manager: 'Content Manager',
-  instructor:      'Instructor',
-  org_admin:       'Organization Admin',
-  learner:         'Learner',
-};
-
 export function BreadcrumbBar() {
   const { isCollapsed } = useSidebar();
   const { user } = useAuth();
@@ -59,7 +51,7 @@ export function BreadcrumbBar() {
       </h1>
       <p className="text-sm text-gray-500 mt-0.5">
         {currentPage === 'dashboard'
-          ? `${roleLabels[user?.role ?? '']} — ${pageInfo.subtitle}`
+          ? `${ROLE_LABELS[user?.role as keyof typeof ROLE_LABELS] || ''} — ${pageInfo.subtitle}`
           : pageInfo.subtitle}
       </p>
     </div>

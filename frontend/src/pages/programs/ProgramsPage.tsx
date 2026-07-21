@@ -1,33 +1,39 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus, Grid3X3, List, Filter, GraduationCap, Users, Clock, DollarSign, ChevronRight } from 'lucide-react';
+import { Plus, Grid3X3, List, GraduationCap, Users, Clock, DollarSign, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
+import { FilterBar } from '@/components/ui/FilterBar';
+import { GridPagination } from '@/components/ui/GridPagination';
 import programsData from '@/mock/programs.json';
+import { PermissionGate } from '@/components/ui/PermissionGate';
 import toast from 'react-hot-toast';
 
 export function ProgramsPage() {
   const [view, setView] = useState<'grid' | 'list'>('grid');
   const [showAddModal, setShowAddModal] = useState(false);
   const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState<Record<string, string>>({});
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
 
-  const filtered = programsData.filter((p) =>
-    p.title.toLowerCase().includes(search.toLowerCase()) ||
-    p.category.toLowerCase().includes(search.toLowerCase())
-  );
+  const categories = [...new Set(programsData.map(p => p.category))];
+
+  const filtered = programsData.filter((p) => {
+    const matchSearch = !search || p.title.toLowerCase().includes(search.toLowerCase()) || p.category.toLowerCase().includes(search.toLowerCase());
+    const matchCat = !filters.category || filters.category === 'all' || p.category === filters.category;
+    const matchStatus = !filters.status || filters.status === 'all' || p.status === filters.status;
+    return matchSearch && matchCat && matchStatus;
+  });
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Programs</h1>
-          <p className="text-sm text-gray-500 mt-1">{programsData.length} training programs</p>
-        </div>
+        <p className="text-sm text-gray-500">{filtered.length} training programs</p>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" onClick={() => setView('grid')} className={view === 'grid' ? 'bg-gray-100' : ''}>
             <Grid3X3 className="w-4 h-4" />
@@ -35,18 +41,26 @@ export function ProgramsPage() {
           <Button variant="outline" size="sm" onClick={() => setView('list')} className={view === 'list' ? 'bg-gray-100' : ''}>
             <List className="w-4 h-4" />
           </Button>
-          <Button variant="outline" size="sm"><Filter className="w-4 h-4 mr-1" /> Filter</Button>
-          <Button onClick={() => setShowAddModal(true)}><Plus className="w-4 h-4 mr-1" /> Add Program</Button>
+          <PermissionGate module="Programs" action="create">
+            <Button onClick={() => setShowAddModal(true)}><Plus className="w-4 h-4 mr-1" /> Add Program</Button>
+          </PermissionGate>
         </div>
       </div>
 
-      {/* Search */}
-      <Input placeholder="Search programs..." value={search} onChange={(e) => setSearch(e.target.value)} />
-
+      {/* Filter Bar */}
+      <FilterBar
+        searchPlaceholder="Search programs..."
+        onSearchChange={setSearch}
+        onFilterChange={(key, val) => setFilters(prev => ({ ...prev, [key]: val }))}
+        filters={[
+          { key: 'category', placeholder: 'All Categories', options: categories.map(c => ({ value: c, label: c })) },
+          { key: 'status', placeholder: 'All Status', options: [{ value: 'published', label: 'Published' }, { value: 'draft', label: 'Draft' }] },
+        ]}
+      />
       {/* Grid View */}
       {view === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((program) => (
+          {filtered.slice((page - 1) * 10, page * 10).map((program) => (
             <Card key={program.id} hover className="overflow-hidden">
               <div className="h-32 bg-gradient-to-br from-navy-800 to-navy-600 rounded-t-lg -mt-6 -mx-6 mb-4 flex items-center justify-center">
                 <GraduationCap className="w-10 h-10 text-gold-500" />
@@ -121,6 +135,8 @@ export function ProgramsPage() {
           </table>
         </div>
       )}
+
+      <GridPagination totalItems={filtered.length} pageSize={10} currentPage={page} onPageChange={setPage} />
 
       {/* Add Program Modal */}
       <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Create New Program" size="xl">

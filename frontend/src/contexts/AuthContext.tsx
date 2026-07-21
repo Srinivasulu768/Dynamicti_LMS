@@ -7,12 +7,12 @@ interface AuthContextType {
   isAuthenticated: boolean;
   login: (email: string, password: string) => boolean;
   logout: () => void;
-  switchRole: (role: Role) => void;
+  switchRole: (role: string) => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const demoAccounts: Record<Role, string> = {
+const demoAccounts: Record<string, string> = {
   super_admin: 'marcus.anderson@test.com',
   training_admin: 'sarah.mitchell@test.com',
   content_manager: 'david.chen@test.com',
@@ -46,15 +46,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('dti_user');
   };
 
-  const switchRole = (role: Role) => {
+  const switchRole = (role: string) => {
+    // Try to find a demo user for this role
     const email = demoAccounts[role];
-    const found = (usersData as User[]).find(
-      (u) => u.email.toLowerCase() === email.toLowerCase()
-    );
-    if (found) {
-      setUser(found);
-      localStorage.setItem('dti_user', JSON.stringify(found));
+    if (email) {
+      const found = (usersData as User[]).find(
+        (u) => u.email.toLowerCase() === email.toLowerCase()
+      );
+      if (found) {
+        setUser(found);
+        localStorage.setItem('dti_user', JSON.stringify(found));
+        return;
+      }
     }
+
+    // For custom roles without a demo user — create a virtual session
+    const virtualUser: User = {
+      id: `VIRTUAL_${role}`,
+      firstName: 'Test',
+      lastName: 'User',
+      email: `${role}@test.com`,
+      role: role as Role,
+      status: 'active',
+      organization: 'DynamicTI',
+      joinDate: new Date().toISOString().split('T')[0],
+    };
+    setUser(virtualUser);
+    localStorage.setItem('dti_user', JSON.stringify(virtualUser));
   };
 
   return (

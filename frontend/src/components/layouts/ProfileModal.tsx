@@ -4,16 +4,8 @@ import { X, User, Key, Eye, EyeOff, Save } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
+import { ROLE_LABELS } from '@/constants/roles';
 import toast from 'react-hot-toast';
-
-const roleLabels: Record<string, string> = {
-  super_admin: 'Super Admin',
-  training_admin: 'Training Admin',
-  content_manager: 'Content Manager',
-  instructor: 'Instructor',
-  org_admin: 'Organization Admin',
-  learner: 'Learner',
-};
 
 const timezones = [
   'UTC', 'America/New_York', 'America/Chicago', 'America/Denver',
@@ -89,7 +81,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                   <h2 className="text-lg font-bold text-gray-900">
                     {user.firstName} {user.lastName}
                   </h2>
-                  <p className="text-sm text-gray-500">{roleLabels[user.role]}</p>
+                  <p className="text-sm text-gray-500">{ROLE_LABELS[user.role]}</p>
                 </div>
               </div>
             </div>

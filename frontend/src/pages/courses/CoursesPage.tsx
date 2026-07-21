@@ -8,15 +8,20 @@ import { Card } from '@/components/ui/Card';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { FilterBar } from '@/components/ui/FilterBar';
+import { PermissionGate } from '@/components/ui/PermissionGate';
+import { GridPagination } from '@/components/ui/GridPagination';
 import coursesData from '@/mock/courses.json';
 import type { Course } from '@/types';
 import toast from 'react-hot-toast';
+
+const PAGE_SIZE = 10;
 
 export function CoursesPage() {
   const [view, setView] = useState<'grid' | 'list'>('grid');
   const [showAddModal, setShowAddModal] = useState(false);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
+  const [page, setPage] = useState(1);
   const navigate = useNavigate();
   const courses = coursesData as Course[];
 
@@ -28,6 +33,7 @@ export function CoursesPage() {
     return matchSearch && matchLevel && matchStatus && matchCat;
   });
 
+  const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const categories = [...new Set(courses.map(c => c.category))];
 
   return (
@@ -44,7 +50,9 @@ export function CoursesPage() {
           <Button variant="outline" size="sm" onClick={() => setView('list')} className={view === 'list' ? 'bg-gray-100' : ''}>
             <List className="w-4 h-4" />
           </Button>
-          <Button onClick={() => setShowAddModal(true)}><Plus className="w-4 h-4 mr-1" /> Add Course</Button>
+          <PermissionGate module="Courses" action="create">
+            <Button onClick={() => setShowAddModal(true)}><Plus className="w-4 h-4 mr-1" /> Add Course</Button>
+          </PermissionGate>
         </div>
       </div>
 
@@ -63,7 +71,7 @@ export function CoursesPage() {
       {/* Grid View */}
       {view === 'grid' ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filtered.map((course) => (
+          {paginated.map((course) => (
             <Card key={course.id} hover className="overflow-hidden">
               <div className="h-32 bg-gradient-to-br from-navy-800 to-navy-600 rounded-t-lg -mt-6 -mx-6 mb-4 flex items-center justify-center">
                 <BookOpen className="w-10 h-10 text-gold-500" />
@@ -138,6 +146,9 @@ export function CoursesPage() {
           </table>
         </div>
       )}
+
+      {/* Pagination */}
+      <GridPagination totalItems={filtered.length} pageSize={PAGE_SIZE} currentPage={page} onPageChange={setPage} />
 
       {/* Add Course Modal */}
       <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Create New Course" size="xl">

@@ -1,15 +1,26 @@
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Award, Download, Eye, RotateCcw } from 'lucide-react';
+import { Award, Download, Eye, RotateCcw, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { DataTable } from '@/components/ui/DataTable';
 import { StatsCard } from '@/components/ui/StatsCard';
+import { FilterBar } from '@/components/ui/FilterBar';
 import certificatesData from '@/mock/certificates.json';
 import type { Certificate } from '@/types';
 import toast from 'react-hot-toast';
 
 export function CertificatesPage() {
   const certs = certificatesData as Certificate[];
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState<Record<string, string>>({});
+
+  const filtered = useMemo(() => certs.filter(c => {
+    const matchSearch = !search || c.userName.toLowerCase().includes(search.toLowerCase()) || c.courseName.toLowerCase().includes(search.toLowerCase()) || c.certificateNumber.toLowerCase().includes(search.toLowerCase());
+    const matchStatus = !filters.status || filters.status === 'all' || c.status === filters.status;
+    return matchSearch && matchStatus;
+  }), [certs, search, filters]);
+
   const active = certs.filter(c => c.status === 'active').length;
   const revoked = certs.filter(c => c.status === 'revoked').length;
 
@@ -32,13 +43,10 @@ export function CertificatesPage() {
   ];
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Certificates</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage issued certificates</p>
-        </div>
-        <Button><Award className="w-4 h-4 mr-1" /> Issue Certificate</Button>
+        <p className="text-sm text-gray-500">{filtered.length} certificates</p>
+        <Button><Plus className="w-4 h-4 mr-1" /> Issue Certificate</Button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -47,7 +55,16 @@ export function CertificatesPage() {
         <StatsCard title="Revoked" value={revoked} icon={Award} />
       </div>
 
-      <DataTable data={certs as unknown as Record<string, unknown>[]} columns={columns as any} pageSize={8} />
+      <FilterBar
+        searchPlaceholder="Search by name, course, certificate #..."
+        onSearchChange={setSearch}
+        onFilterChange={(key, val) => setFilters(prev => ({ ...prev, [key]: val }))}
+        filters={[
+          { key: 'status', placeholder: 'All Status', options: [{ value: 'active', label: 'Active' }, { value: 'revoked', label: 'Revoked' }, { value: 'expired', label: 'Expired' }] },
+        ]}
+      />
+
+      <DataTable data={filtered as unknown as Record<string, unknown>[]} columns={columns as any} pageSize={10} searchable={false} />
     </motion.div>
   );
 }

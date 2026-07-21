@@ -1,0 +1,8 @@
+[
+  {"id":"super_admin","name":"Super Admin","description":"Full platform access and control","users":1,"type":"system"},
+  {"id":"training_admin","name":"Training Administrator","description":"Manage training operations, sessions, enrollments","users":2,"type":"system"},
+  {"id":"content_manager","name":"Content Manager","description":"Manage courses, content, assessments","users":2,"type":"system"},
+  {"id":"instructor","name":"Instructor","description":"Conduct sessions, evaluate learners","users":4,"type":"system"},
+  {"id":"org_admin","name":"Organization Administrator","description":"Manage organization users and training","users":3,"type":"system"},
+  {"id":"learner","name":"Learner","description":"Access enrolled courses and content","users":986,"type":"system"}
+]

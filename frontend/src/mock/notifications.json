@@ -6,5 +6,13 @@
   {"id":"NOT005","title":"Assessment Due","message":"Network Security Quiz 4 is due in 5 days.","type":"warning","read":false,"date":"2026-07-18T09:00:00","route":"/assessments"},
   {"id":"NOT006","title":"System Maintenance","message":"Scheduled maintenance tonight from 2:00 AM - 4:00 AM EST.","type":"info","read":false,"date":"2026-07-20T06:00:00","route":"/system-monitor"},
   {"id":"NOT007","title":"Enrollment Confirmed","message":"You have been enrolled in Drone Operations & UAV Technology.","type":"success","read":true,"date":"2026-07-17T11:00:00","route":"/enrollments"},
-  {"id":"NOT008","title":"New Inquiry","message":"Enterprise training inquiry received from Apex Defense.","type":"info","read":false,"date":"2026-07-19T16:00:00","route":"/inquiries"}
+  {"id":"NOT008","title":"New Inquiry","message":"Enterprise training inquiry received from Apex Defense.","type":"info","read":false,"date":"2026-07-19T16:00:00","route":"/inquiries"},
+  {"id":"NOT009","title":"Course Completion","message":"Michael Johnson completed Network Security Fundamentals.","type":"success","read":true,"date":"2026-07-17T09:00:00","route":"/enrollments"},
+  {"id":"NOT010","title":"New User Registered","message":"Thomas Young from Global Defense Corp has registered.","type":"info","read":true,"date":"2026-07-16T15:30:00","route":"/users"},
+  {"id":"NOT011","title":"Session Cancelled","message":"Leadership Seminar on July 25 has been cancelled.","type":"warning","read":false,"date":"2026-07-16T12:00:00","route":"/sessions"},
+  {"id":"NOT012","title":"Payment Failed","message":"Payment attempt by Christopher Wilson failed. Please retry.","type":"warning","read":false,"date":"2026-07-15T14:00:00","route":"/payments"},
+  {"id":"NOT013","title":"Certificate Expiring","message":"3 certificates are expiring within 30 days.","type":"warning","read":true,"date":"2026-07-15T08:00:00","route":"/certificates"},
+  {"id":"NOT014","title":"New Organization","message":"Nordic Aerospace has been added as a client organization.","type":"info","read":true,"date":"2026-07-14T11:00:00","route":"/organizations"},
+  {"id":"NOT015","title":"Assessment Graded","message":"PMP Practice Test results are now available.","type":"success","read":true,"date":"2026-07-14T09:30:00","route":"/assessments"},
+  {"id":"NOT016","title":"Instructor Assigned","message":"Daniel Lee assigned to Emergency Response course.","type":"info","read":true,"date":"2026-07-13T16:00:00","route":"/instructors"}
 ]

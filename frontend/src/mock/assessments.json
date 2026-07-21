@@ -6,5 +6,13 @@
   {"id":"ASM005","title":"Compliance Assessment","courseId":"CRS009","courseName":"Compliance & Regulatory Training","type":"exam","questions":40,"duration":60,"passingScore":80,"attempts":2,"status":"published"},
   {"id":"ASM006","title":"Data Analytics Project","courseId":"CRS006","courseName":"Data Analytics for Defense","type":"assignment","questions":3,"duration":240,"passingScore":70,"attempts":1,"status":"published"},
   {"id":"ASM007","title":"Emergency Response Simulation","courseId":"CRS007","courseName":"Emergency Response & Crisis Management","type":"exam","questions":35,"duration":75,"passingScore":80,"attempts":2,"status":"published"},
-  {"id":"ASM008","title":"Drone Flight Assessment","courseId":"CRS008","courseName":"Drone Operations & UAV Technology","type":"exam","questions":25,"duration":45,"passingScore":85,"attempts":2,"status":"draft"}
+  {"id":"ASM008","title":"Drone Flight Assessment","courseId":"CRS008","courseName":"Drone Operations & UAV Technology","type":"exam","questions":25,"duration":45,"passingScore":85,"attempts":2,"status":"draft"},
+  {"id":"ASM009","title":"Tactical Communications Quiz","courseId":"CRS003","courseName":"Military Communications Systems","type":"quiz","questions":15,"duration":20,"passingScore":70,"attempts":3,"status":"published"},
+  {"id":"ASM010","title":"First Aid Practical Exam","courseId":"CRS010","courseName":"Advanced First Aid & Tactical Medicine","type":"exam","questions":30,"duration":60,"passingScore":80,"attempts":2,"status":"published"},
+  {"id":"ASM011","title":"Incident Response Drill Report","courseId":"CRS001","courseName":"Advanced Cybersecurity Operations","type":"assignment","questions":4,"duration":180,"passingScore":65,"attempts":1,"status":"published"},
+  {"id":"ASM012","title":"Network Firewall Configuration Quiz","courseId":"CRS005","courseName":"Network Security Fundamentals","type":"quiz","questions":25,"duration":35,"passingScore":75,"attempts":3,"status":"published"},
+  {"id":"ASM013","title":"Crisis Communication Scenario","courseId":"CRS007","courseName":"Emergency Response & Crisis Management","type":"assignment","questions":3,"duration":90,"passingScore":70,"attempts":2,"status":"published"},
+  {"id":"ASM014","title":"Supply Chain Operations Quiz","courseId":"CRS011","courseName":"Supply Chain & Logistics Management","type":"quiz","questions":20,"duration":25,"passingScore":70,"attempts":3,"status":"draft"},
+  {"id":"ASM015","title":"UAV Regulations Knowledge Test","courseId":"CRS008","courseName":"Drone Operations & UAV Technology","type":"quiz","questions":30,"duration":40,"passingScore":80,"attempts":2,"status":"published"},
+  {"id":"ASM016","title":"Leadership Final Exam","courseId":"CRS002","courseName":"Leadership & Strategic Management","type":"exam","questions":45,"duration":90,"passingScore":70,"attempts":2,"status":"published"}
 ]

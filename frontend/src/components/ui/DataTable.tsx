@@ -61,6 +61,7 @@ export function DataTable<T extends Record<string, unknown>>({
 
   const goToPage = (page: number) => {
     setCurrentPage(Math.max(1, Math.min(totalPages, page)));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   // Build page numbers with ellipsis

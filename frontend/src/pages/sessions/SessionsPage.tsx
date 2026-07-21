@@ -7,6 +7,8 @@ import { Card } from '@/components/ui/Card';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { FilterBar } from '@/components/ui/FilterBar';
+import { PermissionGate } from '@/components/ui/PermissionGate';
+import { GridPagination } from '@/components/ui/GridPagination';
 import sessionsData from '@/mock/sessions.json';
 import type { Session } from '@/types';
 import toast from 'react-hot-toast';
@@ -28,6 +30,7 @@ export function SessionsPage() {
   const [selectedSession, setSelectedSession] = useState<Session | null>(null);
   const [search, setSearch] = useState('');
   const [filters, setFilters] = useState<Record<string, string>>({});
+  const [page, setPage] = useState(1);
 
   const filtered = sessions.filter(s => {
     const matchSearch = !search || s.title.toLowerCase().includes(search.toLowerCase()) || s.courseName.toLowerCase().includes(search.toLowerCase());
@@ -63,9 +66,11 @@ export function SessionsPage() {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
       <div className="flex items-center justify-between">
         <p className="text-sm text-gray-500">{filtered.length} total sessions</p>
-        <Button onClick={() => setShowAddModal(true)}>
-          <Plus className="w-4 h-4 mr-1" /> Schedule Session
-        </Button>
+        <PermissionGate module="Sessions" action="create">
+          <Button onClick={() => setShowAddModal(true)}>
+            <Plus className="w-4 h-4 mr-1" /> Schedule Session
+          </Button>
+        </PermissionGate>
       </div>
 
       <FilterBar
@@ -79,7 +84,7 @@ export function SessionsPage() {
       />
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filtered.map((session) => (
+        {filtered.slice((page - 1) * 10, page * 10).map((session) => (
           <Card key={session.id} hover>
             <div className="flex items-center justify-between mb-3">
               <Badge variant={statusColors[session.status]}>{session.status.replace('_', ' ')}</Badge>
@@ -136,6 +141,8 @@ export function SessionsPage() {
           </Card>
         ))}
       </div>
+
+      <GridPagination totalItems={filtered.length} pageSize={10} currentPage={page} onPageChange={setPage} />
 
       {/* Schedule Session Modal */}
       <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Schedule Session" size="lg">

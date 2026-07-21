@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Building2, Users, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
@@ -7,6 +7,7 @@ import { DataTable } from '@/components/ui/DataTable';
 import { Modal } from '@/components/ui/Modal';
 import { Input } from '@/components/ui/Input';
 import { ProgressBar } from '@/components/ui/ProgressBar';
+import { FilterBar } from '@/components/ui/FilterBar';
 import organizationsData from '@/mock/organizations.json';
 import type { Organization } from '@/types';
 import toast from 'react-hot-toast';
@@ -14,6 +15,15 @@ import toast from 'react-hot-toast';
 export function OrganizationsPage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const orgs = organizationsData as Organization[];
+  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState<Record<string, string>>({});
+
+  const filtered = useMemo(() => orgs.filter(o => {
+    const matchSearch = !search || o.name.toLowerCase().includes(search.toLowerCase()) || o.industry.toLowerCase().includes(search.toLowerCase());
+    const matchType = !filters.type || filters.type === 'all' || o.type === filters.type;
+    const matchStatus = !filters.status || filters.status === 'all' || o.status === filters.status;
+    return matchSearch && matchType && matchStatus;
+  }), [orgs, search, filters]);
 
   const columns = [
     {
@@ -58,12 +68,9 @@ export function OrganizationsPage() {
   ];
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-5">
       <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Organizations</h1>
-          <p className="text-sm text-gray-500 mt-1">{orgs.length} registered organizations</p>
-        </div>
+        <p className="text-sm text-gray-500">{filtered.length} registered organizations</p>
         <Button onClick={() => setShowAddModal(true)}>
           <Plus className="w-4 h-4 mr-1" /> Add Organization
         </Button>
@@ -85,7 +92,17 @@ export function OrganizationsPage() {
         </div>
       </div>
 
-      <DataTable data={orgs as unknown as Record<string, unknown>[]} columns={columns as any} pageSize={8} />
+      <FilterBar
+        searchPlaceholder="Search organizations..."
+        onSearchChange={setSearch}
+        onFilterChange={(key, val) => setFilters(prev => ({ ...prev, [key]: val }))}
+        filters={[
+          { key: 'type', placeholder: 'All Types', options: [{ value: 'Enterprise', label: 'Enterprise' }, { value: 'Government', label: 'Government' }, { value: 'Training Provider', label: 'Training Provider' }] },
+          { key: 'status', placeholder: 'All Status', options: [{ value: 'active', label: 'Active' }, { value: 'inactive', label: 'Inactive' }] },
+        ]}
+      />
+
+      <DataTable data={filtered as unknown as Record<string, unknown>[]} columns={columns as any} pageSize={10} searchable={false} />
 
       <Modal isOpen={showAddModal} onClose={() => setShowAddModal(false)} title="Add Organization" size="lg">
         <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); toast.success('Organization added!'); setShowAddModal(false); }}>

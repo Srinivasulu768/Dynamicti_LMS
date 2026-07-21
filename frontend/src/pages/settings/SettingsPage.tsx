@@ -50,7 +50,7 @@ export function SettingsPage() {
               <CardContent>
                 <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); toast.success('Settings saved!'); }}>
                   <Input label="Platform Name" defaultValue="DynamicTI Training Platform" />
-                  <Input label="Contact Email" defaultValue="admin@dynamicti.com" />
+                  <Input label="Contact Email" defaultValue="admin@test.com" />
                   <Input label="Support Phone" defaultValue="+1-555-0001" />
                   <div className="space-y-1">
                     <label className="block text-sm font-medium text-gray-700">Timezone</label>
