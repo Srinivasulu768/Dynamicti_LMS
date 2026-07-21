@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus, GraduationCap, Users, Clock, DollarSign, ChevronRight } from 'lucide-react';
+import { Plus, GraduationCap, Users, Clock, BookOpen, DollarSign, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
@@ -68,7 +68,7 @@ export function ProgramsPage() {
                 <div className="flex items-center gap-4 text-xs text-gray-500">
                   <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" /> {program.enrollmentCount}</span>
                   <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {program.duration}</span>
-                  <span className="flex items-center gap-1"><GraduationCap className="w-3.5 h-3.5" /> {program.courses.length} courses</span>
+                  <span className="flex items-center gap-1"><BookOpen className="w-3.5 h-3.5" /> {program.modules?.length || 0} modules</span>
                 </div>
                 <div className="flex items-center justify-between pt-2 border-t border-gray-100">
                   <span className="text-sm font-semibold text-navy-800">${program.price.toLocaleString()}</span>

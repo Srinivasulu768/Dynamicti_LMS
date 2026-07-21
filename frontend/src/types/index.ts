@@ -42,12 +42,57 @@ export interface Course {
   tags?: string[];
 }
 
+export interface ProgramModule {
+  id: string;
+  title: string;
+  lessons: ProgramLesson[];
+}
+
+export interface ProgramLesson {
+  id: string;
+  title: string;
+  duration: string;
+  type: 'video' | 'document' | 'assignment' | 'quiz';
+}
+
+export interface ProgramSession {
+  id: string;
+  title: string;
+  date: string;
+  startTime: string;
+  endTime: string;
+  location: string;
+  type: 'in_person' | 'virtual' | 'hybrid';
+  instructorName: string;
+  capacity: number;
+  attendees: number;
+  status: 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
+}
+
+export interface ProgramAssessment {
+  id: string;
+  title: string;
+  type: 'quiz' | 'assignment' | 'exam';
+  questions: number;
+  duration: number;
+  passingScore: number;
+  attempts: number;
+  status: 'draft' | 'published';
+}
+
+export interface ProgramMedia {
+  id: string;
+  title: string;
+  type: 'video' | 'document' | 'image' | 'audio';
+  url: string;
+  size: string;
+}
+
 export interface Program {
   id: string;
   title: string;
   description: string;
   category: string;
-  courses: string[];
   duration: string;
   level?: string;
   status: 'draft' | 'published' | 'archived';
@@ -56,6 +101,10 @@ export interface Program {
   startDate: string;
   endDate: string;
   tags?: string[];
+  modules: ProgramModule[];
+  sessions: ProgramSession[];
+  assessments: ProgramAssessment[];
+  media: ProgramMedia[];
 }
 
 export interface Organization {

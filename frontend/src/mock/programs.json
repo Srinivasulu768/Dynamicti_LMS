@@ -4,7 +4,6 @@
     "title": "DTI CQB Tier-One",
     "description": "Elite close quarters battle program designed for advanced operators. Covers room clearing, hallway movement, stairwell procedures, and multi-room problem solving at the highest level.",
     "category": "Combatives/Self Defense",
-    "courses": ["CRS001", "CRS003", "CRS005"],
     "duration": "5 Days",
     "level": "Advanced",
     "status": "published",
@@ -13,14 +12,54 @@
     "startDate": "2026-08-01",
     "endDate": "2026-08-05",
     "image": "/programs/cqb.jpg",
-    "tags": ["CQB", "Tactical", "Advanced"]
+    "tags": ["CQB", "Tactical", "Advanced"],
+    "modules": [
+      {
+        "id": "MOD001",
+        "title": "Room Clearing Fundamentals",
+        "lessons": [
+          { "id": "LES001", "title": "Entry Techniques", "duration": "60 min", "type": "video" },
+          { "id": "LES002", "title": "Threat Assessment in CQB", "duration": "45 min", "type": "video" },
+          { "id": "LES003", "title": "Corner Domination Drill", "duration": "90 min", "type": "assignment" }
+        ]
+      },
+      {
+        "id": "MOD002",
+        "title": "Hallway & Stairwell Movement",
+        "lessons": [
+          { "id": "LES004", "title": "Linear Danger Area Procedures", "duration": "45 min", "type": "video" },
+          { "id": "LES005", "title": "Stairwell Clearing Protocols", "duration": "60 min", "type": "video" },
+          { "id": "LES006", "title": "Movement Under Fire", "duration": "75 min", "type": "assignment" }
+        ]
+      },
+      {
+        "id": "MOD003",
+        "title": "Multi-Room Problem Solving",
+        "lessons": [
+          { "id": "LES007", "title": "Stronghold Clearing Scenarios", "duration": "90 min", "type": "video" },
+          { "id": "LES008", "title": "Team Coordination Exercises", "duration": "120 min", "type": "assignment" },
+          { "id": "LES009", "title": "Final CQB Assessment", "duration": "60 min", "type": "quiz" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES001", "title": "CQB Live Fire Exercise", "date": "2026-08-02", "startTime": "08:00", "endTime": "12:00", "location": "Shoot House Alpha", "type": "in_person", "instructorName": "James Rodriguez", "capacity": 20, "attendees": 18, "status": "scheduled" },
+      { "id": "PSES002", "title": "Force-on-Force Simulation", "date": "2026-08-04", "startTime": "09:00", "endTime": "15:00", "location": "Training Facility B", "type": "in_person", "instructorName": "James Rodriguez", "capacity": 20, "attendees": 20, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM001", "title": "CQB Written Exam", "type": "exam", "questions": 40, "duration": 60, "passingScore": 80, "attempts": 2, "status": "published" },
+      { "id": "PASM002", "title": "Room Clearing Practical", "type": "assignment", "questions": 5, "duration": 120, "passingScore": 85, "attempts": 2, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED001", "title": "CQB Tactics Handbook", "type": "document", "url": "/media/cqb-handbook.pdf", "size": "4.2 MB" },
+      { "id": "MED002", "title": "Entry Techniques Demo", "type": "video", "url": "/media/entry-demo.mp4", "size": "320 MB" }
+    ]
   },
   {
     "id": "PRG002",
     "title": "Sniper/Observer ISOC",
     "description": "Comprehensive sniper and observer training integrating advanced marksmanship, field craft, observation techniques, range estimation, and mission planning for precision engagements.",
     "category": "Field/Range",
-    "courses": ["CRS002", "CRS006"],
     "duration": "10 Days",
     "level": "Advanced",
     "status": "published",
@@ -29,14 +68,43 @@
     "startDate": "2026-09-01",
     "endDate": "2026-09-10",
     "image": "/programs/sniper.jpg",
-    "tags": ["Sniper", "Precision", "Field Craft"]
+    "tags": ["Sniper", "Precision", "Field Craft"],
+    "modules": [
+      {
+        "id": "MOD004",
+        "title": "Advanced Marksmanship",
+        "lessons": [
+          { "id": "LES010", "title": "Ballistics & Trajectory", "duration": "60 min", "type": "video" },
+          { "id": "LES011", "title": "Wind Reading & Corrections", "duration": "90 min", "type": "video" },
+          { "id": "LES012", "title": "Long Range Precision Drill", "duration": "120 min", "type": "assignment" }
+        ]
+      },
+      {
+        "id": "MOD005",
+        "title": "Field Craft & Observation",
+        "lessons": [
+          { "id": "LES013", "title": "Camouflage & Concealment", "duration": "75 min", "type": "video" },
+          { "id": "LES014", "title": "Range Estimation Methods", "duration": "60 min", "type": "video" },
+          { "id": "LES015", "title": "Observation Post Setup", "duration": "90 min", "type": "assignment" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES003", "title": "Live Fire Range Day", "date": "2026-09-03", "startTime": "06:00", "endTime": "16:00", "location": "Long Range Complex", "type": "in_person", "instructorName": "Robert Taylor", "capacity": 15, "attendees": 12, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM003", "title": "Marksmanship Qualification", "type": "exam", "questions": 20, "duration": 180, "passingScore": 90, "attempts": 2, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED003", "title": "Sniper Field Manual", "type": "document", "url": "/media/sniper-manual.pdf", "size": "6.8 MB" },
+      { "id": "MED004", "title": "Ballistic Calculator Guide", "type": "document", "url": "/media/ballistic-calc.pdf", "size": "1.2 MB" }
+    ]
   },
   {
     "id": "PRG003",
     "title": "Combat Training",
     "description": "Foundational combat training program covering weapons handling, tactical movement, communication under stress, and team-based combat operations in various environments.",
     "category": "Combatives/Self Defense",
-    "courses": ["CRS001", "CRS007", "CRS010"],
     "duration": "7 Days",
     "level": "Intermediate",
     "status": "published",
@@ -45,14 +113,43 @@
     "startDate": "2026-08-15",
     "endDate": "2026-08-21",
     "image": "/programs/combat.jpg",
-    "tags": ["Combat", "Weapons", "Team Tactics"]
+    "tags": ["Combat", "Weapons", "Team Tactics"],
+    "modules": [
+      {
+        "id": "MOD006",
+        "title": "Weapons Handling & Safety",
+        "lessons": [
+          { "id": "LES016", "title": "Firearms Safety Principles", "duration": "45 min", "type": "video" },
+          { "id": "LES017", "title": "Weapon Manipulation Drills", "duration": "60 min", "type": "assignment" }
+        ]
+      },
+      {
+        "id": "MOD007",
+        "title": "Tactical Movement",
+        "lessons": [
+          { "id": "LES018", "title": "Individual Movement Techniques", "duration": "60 min", "type": "video" },
+          { "id": "LES019", "title": "Team Bounding Overwatch", "duration": "90 min", "type": "video" },
+          { "id": "LES020", "title": "Urban Movement Practical", "duration": "120 min", "type": "assignment" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES004", "title": "Weapons Qualification", "date": "2026-08-17", "startTime": "07:00", "endTime": "14:00", "location": "Range Complex A", "type": "in_person", "instructorName": "Daniel Lee", "capacity": 30, "attendees": 28, "status": "scheduled" },
+      { "id": "PSES005", "title": "Team Combat Exercise", "date": "2026-08-20", "startTime": "06:00", "endTime": "18:00", "location": "Training Area Delta", "type": "in_person", "instructorName": "Daniel Lee", "capacity": 30, "attendees": 30, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM004", "title": "Weapons Handling Test", "type": "exam", "questions": 30, "duration": 45, "passingScore": 75, "attempts": 3, "status": "published" },
+      { "id": "PASM005", "title": "Tactical Scenario Evaluation", "type": "assignment", "questions": 4, "duration": 180, "passingScore": 70, "attempts": 2, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED005", "title": "Combat Training SOP", "type": "document", "url": "/media/combat-sop.pdf", "size": "3.5 MB" }
+    ]
   },
   {
     "id": "PRG004",
-    "title": "Vehicle operations using military or civilian vehicles with tactical driving and convoy procedures for high-threat environments and personnel protection details.",
+    "title": "Tactical Vehicle Operations",
     "description": "Tactical vehicle operations covering convoy procedures, evasive driving, vehicle-mounted weapons systems, and motorcade security protocols for protection operations.",
     "category": "Vehicle Operations",
-    "courses": ["CRS004", "CRS008"],
     "duration": "5 Days",
     "level": "Intermediate",
     "status": "published",
@@ -61,14 +158,41 @@
     "startDate": "2026-09-15",
     "endDate": "2026-09-19",
     "image": "/programs/vehicle.jpg",
-    "tags": ["Driving", "Convoy", "Protection"]
+    "tags": ["Driving", "Convoy", "Protection"],
+    "modules": [
+      {
+        "id": "MOD008",
+        "title": "Convoy Operations",
+        "lessons": [
+          { "id": "LES021", "title": "Convoy Formation & Spacing", "duration": "45 min", "type": "video" },
+          { "id": "LES022", "title": "Route Planning & Recon", "duration": "60 min", "type": "video" },
+          { "id": "LES023", "title": "Convoy Reaction Drills", "duration": "90 min", "type": "assignment" }
+        ]
+      },
+      {
+        "id": "MOD009",
+        "title": "Evasive Driving",
+        "lessons": [
+          { "id": "LES024", "title": "Vehicle Dynamics Under Stress", "duration": "60 min", "type": "video" },
+          { "id": "LES025", "title": "Evasive Maneuvering Practical", "duration": "120 min", "type": "assignment" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES006", "title": "Driving Track Exercise", "date": "2026-09-16", "startTime": "08:00", "endTime": "16:00", "location": "Driving Track Bravo", "type": "in_person", "instructorName": "Andrew Wright", "capacity": 15, "attendees": 14, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM006", "title": "Vehicle Operations Written Test", "type": "quiz", "questions": 25, "duration": 30, "passingScore": 70, "attempts": 3, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED006", "title": "Vehicle Ops Reference Guide", "type": "document", "url": "/media/vehicle-guide.pdf", "size": "2.8 MB" }
+    ]
   },
   {
     "id": "PRG005",
     "title": "Small Unit Light Fighter",
     "description": "Small unit tactics training for light infantry operations including patrol techniques, ambush procedures, reconnaissance, and raids in various terrain and environments.",
     "category": "Field/Range",
-    "courses": ["CRS003", "CRS007", "CRS010"],
     "duration": "14 Days",
     "level": "Advanced",
     "status": "published",
@@ -77,14 +201,42 @@
     "startDate": "2026-10-01",
     "endDate": "2026-10-14",
     "image": "/programs/lightfighter.jpg",
-    "tags": ["Infantry", "Patrol", "Small Unit"]
+    "tags": ["Infantry", "Patrol", "Small Unit"],
+    "modules": [
+      {
+        "id": "MOD010",
+        "title": "Patrol Operations",
+        "lessons": [
+          { "id": "LES026", "title": "Patrol Planning & Orders", "duration": "60 min", "type": "video" },
+          { "id": "LES027", "title": "Movement Formations", "duration": "45 min", "type": "video" },
+          { "id": "LES028", "title": "Patrol Base Operations", "duration": "75 min", "type": "assignment" }
+        ]
+      },
+      {
+        "id": "MOD011",
+        "title": "Ambush & Raid",
+        "lessons": [
+          { "id": "LES029", "title": "Ambush Types & Setup", "duration": "60 min", "type": "video" },
+          { "id": "LES030", "title": "Raid Planning & Execution", "duration": "90 min", "type": "video" },
+          { "id": "LES031", "title": "After Action Review", "duration": "45 min", "type": "document" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES007", "title": "Field Training Exercise", "date": "2026-10-05", "startTime": "05:00", "endTime": "22:00", "location": "Training Area Echo", "type": "in_person", "instructorName": "Robert Taylor", "capacity": 20, "attendees": 18, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM007", "title": "Patrol Orders Assessment", "type": "assignment", "questions": 3, "duration": 120, "passingScore": 75, "attempts": 2, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED007", "title": "Patrol SOPs", "type": "document", "url": "/media/patrol-sop.pdf", "size": "5.1 MB" }
+    ]
   },
   {
     "id": "PRG006",
     "title": "Television Transmitter",
     "description": "Technical training on secure communications systems, broadcast operations, signal intelligence, and electronic warfare countermeasures for field operations.",
     "category": "Communications",
-    "courses": ["CRS003", "CRS006"],
     "duration": "5 Days",
     "level": "Intermediate",
     "status": "published",
@@ -93,14 +245,33 @@
     "startDate": "2026-08-20",
     "endDate": "2026-08-24",
     "image": "/programs/comms.jpg",
-    "tags": ["Communications", "Signal", "Electronic"]
+    "tags": ["Communications", "Signal", "Electronic"],
+    "modules": [
+      {
+        "id": "MOD012",
+        "title": "Secure Communications",
+        "lessons": [
+          { "id": "LES032", "title": "Encryption Fundamentals", "duration": "60 min", "type": "video" },
+          { "id": "LES033", "title": "Radio Operations", "duration": "45 min", "type": "video" },
+          { "id": "LES034", "title": "Secure Comms Practical", "duration": "90 min", "type": "assignment" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES008", "title": "Comms Equipment Lab", "date": "2026-08-22", "startTime": "09:00", "endTime": "15:00", "location": "Comms Lab C", "type": "in_person", "instructorName": "Daniel Lee", "capacity": 25, "attendees": 20, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM008", "title": "Comms Protocol Quiz", "type": "quiz", "questions": 20, "duration": 30, "passingScore": 70, "attempts": 3, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED008", "title": "Radio Procedures Guide", "type": "document", "url": "/media/radio-guide.pdf", "size": "1.9 MB" }
+    ]
   },
   {
     "id": "PRG007",
     "title": "Tactical/Modern PRT Fitness",
     "description": "Physical readiness training program designed for tactical athletes. Combines strength, endurance, mobility, and combat-specific conditioning for operational performance.",
     "category": "Physical Training",
-    "courses": ["CRS010"],
     "duration": "4 Weeks",
     "level": "All Levels",
     "status": "published",
@@ -109,14 +280,40 @@
     "startDate": "2026-07-25",
     "endDate": "2026-08-22",
     "image": "/programs/fitness.jpg",
-    "tags": ["Fitness", "PRT", "Conditioning"]
+    "tags": ["Fitness", "PRT", "Conditioning"],
+    "modules": [
+      {
+        "id": "MOD013",
+        "title": "Strength & Power",
+        "lessons": [
+          { "id": "LES035", "title": "Functional Strength Training", "duration": "60 min", "type": "video" },
+          { "id": "LES036", "title": "Power Development", "duration": "45 min", "type": "video" }
+        ]
+      },
+      {
+        "id": "MOD014",
+        "title": "Endurance & Mobility",
+        "lessons": [
+          { "id": "LES037", "title": "Tactical Endurance Protocols", "duration": "60 min", "type": "video" },
+          { "id": "LES038", "title": "Mobility & Recovery", "duration": "45 min", "type": "video" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES009", "title": "PRT Assessment Day", "date": "2026-08-22", "startTime": "06:00", "endTime": "10:00", "location": "Fitness Center", "type": "in_person", "instructorName": "James Rodriguez", "capacity": 50, "attendees": 45, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM009", "title": "Physical Fitness Test", "type": "exam", "questions": 6, "duration": 60, "passingScore": 70, "attempts": 2, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED009", "title": "PRT Exercise Library", "type": "video", "url": "/media/prt-library.mp4", "size": "890 MB" }
+    ]
   },
   {
     "id": "PRG008",
     "title": "Active Shooter Response",
     "description": "Comprehensive active threat response training for law enforcement and security professionals. Covers rapid deployment, threat neutralization, and casualty care integration.",
     "category": "Law Enforcement",
-    "courses": ["CRS001", "CRS007", "CRS010"],
     "duration": "3 Days",
     "level": "Intermediate",
     "status": "published",
@@ -125,14 +322,41 @@
     "startDate": "2026-08-10",
     "endDate": "2026-08-12",
     "image": "/programs/activeshooter.jpg",
-    "tags": ["Active Shooter", "Law Enforcement", "Response"]
+    "tags": ["Active Shooter", "Law Enforcement", "Response"],
+    "modules": [
+      {
+        "id": "MOD015",
+        "title": "Rapid Deployment",
+        "lessons": [
+          { "id": "LES039", "title": "Solo Officer Response", "duration": "60 min", "type": "video" },
+          { "id": "LES040", "title": "Contact Team Formation", "duration": "75 min", "type": "video" },
+          { "id": "LES041", "title": "Building Search Techniques", "duration": "90 min", "type": "assignment" }
+        ]
+      },
+      {
+        "id": "MOD016",
+        "title": "Casualty Care Integration",
+        "lessons": [
+          { "id": "LES042", "title": "Tactical First Aid", "duration": "60 min", "type": "video" },
+          { "id": "LES043", "title": "Rescue Task Force Ops", "duration": "45 min", "type": "video" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES010", "title": "Active Threat Drill", "date": "2026-08-11", "startTime": "08:00", "endTime": "16:00", "location": "Training Complex Alpha", "type": "in_person", "instructorName": "Robert Taylor", "capacity": 30, "attendees": 28, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM010", "title": "Active Shooter Response Eval", "type": "exam", "questions": 35, "duration": 60, "passingScore": 80, "attempts": 2, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED010", "title": "Response Protocols Manual", "type": "document", "url": "/media/response-manual.pdf", "size": "4.5 MB" }
+    ]
   },
   {
     "id": "PRG009",
     "title": "VIP/Public Personal/International Protection",
     "description": "Executive protection training covering advance work, motorcade operations, threat assessment, close protection formations, and international security protocols.",
     "category": "Executive Protection",
-    "courses": ["CRS004", "CRS007", "CRS008"],
     "duration": "10 Days",
     "level": "Advanced",
     "status": "published",
@@ -141,14 +365,41 @@
     "startDate": "2026-09-20",
     "endDate": "2026-09-29",
     "image": "/programs/protection.jpg",
-    "tags": ["VIP", "Protection", "Executive"]
+    "tags": ["VIP", "Protection", "Executive"],
+    "modules": [
+      {
+        "id": "MOD017",
+        "title": "Advance Work & Planning",
+        "lessons": [
+          { "id": "LES044", "title": "Venue Assessment", "duration": "60 min", "type": "video" },
+          { "id": "LES045", "title": "Route Survey & Selection", "duration": "45 min", "type": "video" },
+          { "id": "LES046", "title": "Advance Report Writing", "duration": "60 min", "type": "assignment" }
+        ]
+      },
+      {
+        "id": "MOD018",
+        "title": "Close Protection Formations",
+        "lessons": [
+          { "id": "LES047", "title": "Formation Types & Transitions", "duration": "75 min", "type": "video" },
+          { "id": "LES048", "title": "AOP Drills", "duration": "90 min", "type": "assignment" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES011", "title": "Motorcade Exercise", "date": "2026-09-25", "startTime": "07:00", "endTime": "15:00", "location": "Urban Training Area", "type": "in_person", "instructorName": "Andrew Wright", "capacity": 20, "attendees": 18, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM011", "title": "Protection Operations Exam", "type": "exam", "questions": 40, "duration": 90, "passingScore": 75, "attempts": 2, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED011", "title": "EP Operations Manual", "type": "document", "url": "/media/ep-manual.pdf", "size": "5.6 MB" }
+    ]
   },
   {
     "id": "PRG010",
     "title": "Personality Identifier",
     "description": "Behavioral analysis and personality assessment training for intelligence professionals. Covers profiling techniques, deception detection, and interview/interrogation methods.",
     "category": "Intelligence",
-    "courses": ["CRS006", "CRS002"],
     "duration": "5 Days",
     "level": "Advanced",
     "status": "published",
@@ -157,14 +408,33 @@
     "startDate": "2026-10-05",
     "endDate": "2026-10-09",
     "image": "/programs/intel.jpg",
-    "tags": ["Intelligence", "Behavioral", "Profiling"]
+    "tags": ["Intelligence", "Behavioral", "Profiling"],
+    "modules": [
+      {
+        "id": "MOD019",
+        "title": "Behavioral Profiling",
+        "lessons": [
+          { "id": "LES049", "title": "Personality Assessment Models", "duration": "60 min", "type": "video" },
+          { "id": "LES050", "title": "Deception Detection Indicators", "duration": "75 min", "type": "video" },
+          { "id": "LES051", "title": "Interview Technique Practicum", "duration": "120 min", "type": "assignment" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES012", "title": "Interview Lab", "date": "2026-10-07", "startTime": "09:00", "endTime": "15:00", "location": "Interview Suite", "type": "in_person", "instructorName": "Daniel Lee", "capacity": 15, "attendees": 14, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM012", "title": "Behavioral Analysis Exam", "type": "exam", "questions": 30, "duration": 60, "passingScore": 75, "attempts": 2, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED012", "title": "Profiling Case Studies", "type": "document", "url": "/media/profiling-cases.pdf", "size": "3.2 MB" }
+    ]
   },
   {
     "id": "PRG011",
     "title": "Bioluminescence Neutralize",
     "description": "Specialized night operations training covering low-light tactics, night vision operations, IR discipline, and nocturnal mission planning and execution.",
     "category": "Field/Range",
-    "courses": ["CRS001", "CRS003"],
     "duration": "7 Days",
     "level": "Advanced",
     "status": "published",
@@ -173,14 +443,33 @@
     "startDate": "2026-11-01",
     "endDate": "2026-11-07",
     "image": "/programs/nightops.jpg",
-    "tags": ["Night Operations", "Low Light", "NVG"]
+    "tags": ["Night Operations", "Low Light", "NVG"],
+    "modules": [
+      {
+        "id": "MOD020",
+        "title": "Night Vision Operations",
+        "lessons": [
+          { "id": "LES052", "title": "NVG Familiarization", "duration": "45 min", "type": "video" },
+          { "id": "LES053", "title": "Movement Under NVG", "duration": "60 min", "type": "video" },
+          { "id": "LES054", "title": "IR Discipline & Laser Ops", "duration": "90 min", "type": "assignment" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES013", "title": "Night Patrol Exercise", "date": "2026-11-04", "startTime": "20:00", "endTime": "04:00", "location": "Training Area Foxtrot", "type": "in_person", "instructorName": "James Rodriguez", "capacity": 15, "attendees": 12, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM013", "title": "Night Ops Practical Exam", "type": "assignment", "questions": 4, "duration": 180, "passingScore": 80, "attempts": 2, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED013", "title": "NVG Operating Manual", "type": "document", "url": "/media/nvg-manual.pdf", "size": "2.4 MB" }
+    ]
   },
   {
     "id": "PRG012",
     "title": "Team Global Exercise Program",
     "description": "Multi-national joint exercise planning and execution. Covers coalition operations, interoperability standards, combined arms coordination, and multi-domain operations.",
     "category": "Leadership",
-    "courses": ["CRS002", "CRS004", "CRS007"],
     "duration": "21 Days",
     "level": "Advanced",
     "status": "published",
@@ -189,14 +478,33 @@
     "startDate": "2026-11-15",
     "endDate": "2026-12-05",
     "image": "/programs/global.jpg",
-    "tags": ["Joint Exercise", "Coalition", "Multi-National"]
+    "tags": ["Joint Exercise", "Coalition", "Multi-National"],
+    "modules": [
+      {
+        "id": "MOD021",
+        "title": "Coalition Operations",
+        "lessons": [
+          { "id": "LES055", "title": "Interoperability Standards", "duration": "60 min", "type": "video" },
+          { "id": "LES056", "title": "Multi-Domain Integration", "duration": "75 min", "type": "video" },
+          { "id": "LES057", "title": "Joint Planning Exercise", "duration": "120 min", "type": "assignment" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES014", "title": "Joint Exercise Kickoff", "date": "2026-11-16", "startTime": "08:00", "endTime": "17:00", "location": "Joint Operations Center", "type": "hybrid", "instructorName": "Robert Taylor", "capacity": 40, "attendees": 38, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM014", "title": "Joint Operations Planning Exam", "type": "exam", "questions": 45, "duration": 90, "passingScore": 70, "attempts": 2, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED014", "title": "Joint Doctrine Reference", "type": "document", "url": "/media/joint-doctrine.pdf", "size": "8.3 MB" }
+    ]
   },
   {
     "id": "PRG013",
     "title": "Church/School/Large Venue Protection",
     "description": "Security planning and response training for houses of worship, educational facilities, and large venue environments. Covers threat assessment, security team organization, and response protocols.",
     "category": "Executive Protection",
-    "courses": ["CRS007", "CRS009"],
     "duration": "3 Days",
     "level": "Beginner",
     "status": "published",
@@ -205,6 +513,37 @@
     "startDate": "2026-08-05",
     "endDate": "2026-08-07",
     "image": "/programs/venue.jpg",
-    "tags": ["Venue Security", "Church", "School"]
+    "tags": ["Venue Security", "Church", "School"],
+    "modules": [
+      {
+        "id": "MOD022",
+        "title": "Threat Assessment & Planning",
+        "lessons": [
+          { "id": "LES058", "title": "Facility Vulnerability Assessment", "duration": "60 min", "type": "video" },
+          { "id": "LES059", "title": "Security Team Organization", "duration": "45 min", "type": "video" },
+          { "id": "LES060", "title": "Emergency Response Planning", "duration": "60 min", "type": "document" }
+        ]
+      },
+      {
+        "id": "MOD023",
+        "title": "Response Protocols",
+        "lessons": [
+          { "id": "LES061", "title": "Active Threat Response for Civilians", "duration": "75 min", "type": "video" },
+          { "id": "LES062", "title": "Evacuation Procedures", "duration": "45 min", "type": "video" },
+          { "id": "LES063", "title": "Scenario-Based Training", "duration": "90 min", "type": "assignment" }
+        ]
+      }
+    ],
+    "sessions": [
+      { "id": "PSES015", "title": "Venue Security Walkthrough", "date": "2026-08-06", "startTime": "09:00", "endTime": "14:00", "location": "Community Center", "type": "in_person", "instructorName": "Daniel Lee", "capacity": 35, "attendees": 30, "status": "scheduled" }
+    ],
+    "assessments": [
+      { "id": "PASM015", "title": "Security Planning Assessment", "type": "assignment", "questions": 5, "duration": 90, "passingScore": 70, "attempts": 2, "status": "published" },
+      { "id": "PASM016", "title": "Response Protocol Quiz", "type": "quiz", "questions": 20, "duration": 25, "passingScore": 70, "attempts": 3, "status": "published" }
+    ],
+    "media": [
+      { "id": "MED015", "title": "Venue Security Checklist", "type": "document", "url": "/media/venue-checklist.pdf", "size": "1.1 MB" },
+      { "id": "MED016", "title": "Security Planning Templates", "type": "document", "url": "/media/security-templates.pdf", "size": "2.5 MB" }
+    ]
   }
 ]
