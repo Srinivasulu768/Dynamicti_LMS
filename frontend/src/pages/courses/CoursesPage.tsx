@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { Plus, BookOpen, Users, Clock, Star, ChevronRight, Pencil, Trash2 } from 'lucide-react';
+import { Plus, BookOpen, Users, Clock, Star, ChevronRight, Pencil, Trash2, Send, Archive, RotateCcw } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { Card } from '@/components/ui/Card';
@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/Input';
 import { FilterBar } from '@/components/ui/FilterBar';
 import { PermissionGate } from '@/components/ui/PermissionGate';
 import { GridPagination } from '@/components/ui/GridPagination';
-import { getCourses, createCourse, updateCourse, deleteCourse } from '@/services/courseService';
+import { getCourses, createCourse, updateCourse, deleteCourse, publishCourse, archiveCourse, restoreCourse } from '@/services/courseService';
 import { loadUsers } from '@/services/userService';
 import type { Course, User } from '@/types';
 import toast from 'react-hot-toast';
@@ -18,7 +18,9 @@ import toast from 'react-hot-toast';
 const PAGE_SIZE = 10;
 
 export function CoursesPage() {
-  const instructors = (loadUsers() as User[]).filter(u => u.role === 'instructor');
+  const allUsers = loadUsers() as User[];
+  const instructors = allUsers.filter(u => u.role === 'instructor');
+  const contentManagers = allUsers.filter(u => u.role === 'content_manager');
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -37,6 +39,7 @@ export function CoursesPage() {
     const formData = new FormData(form);
     const selectedInstructorId = formData.get('instructor') as string;
     const instructorUser = instructors.find(i => i.id === selectedInstructorId);
+    const assignedTo = formData.get('assignedTo') as string;
     createCourse({
       title: formData.get('title') as string,
       description: (formData.get('description') as string) || '',
@@ -53,15 +56,16 @@ export function CoursesPage() {
       lessons: 0,
       startDate: '',
       endDate: '',
-      status: 'published',
+      status: 'draft',
       prerequisites: [],
       tags: [],
+      assignedTo: assignedTo || undefined,
     });
     refreshCourses();
     setPage(1);
     setSearch('');
     setFilters({});
-    toast.success('Course created successfully!');
+    toast.success('Course created as draft!');
     setShowAddModal(false);
   };
 
@@ -72,6 +76,7 @@ export function CoursesPage() {
     const formData = new FormData(form);
     const selectedInstructorId = formData.get('instructor') as string;
     const instructorUser = instructors.find(i => i.id === selectedInstructorId);
+    const assignedTo = formData.get('assignedTo') as string;
     updateCourse(selectedCourse.id, {
       title: formData.get('title') as string,
       description: (formData.get('description') as string) || selectedCourse.description,
@@ -82,6 +87,7 @@ export function CoursesPage() {
       capacity: Number(formData.get('capacity')) || selectedCourse.capacity,
       instructor: instructorUser ? `${instructorUser.firstName} ${instructorUser.lastName}` : selectedCourse.instructor,
       instructorId: selectedInstructorId || selectedCourse.instructorId,
+      assignedTo: assignedTo || selectedCourse.assignedTo,
     });
     refreshCourses();
     toast.success('Course updated successfully!');
@@ -98,15 +104,43 @@ export function CoursesPage() {
     setSelectedCourse(null);
   };
 
+  const handlePublish = (course: Course) => {
+    publishCourse(course.id);
+    refreshCourses();
+    toast.success(`"${course.title}" published successfully!`);
+  };
+
+  const handleArchive = (course: Course) => {
+    archiveCourse(course.id);
+    refreshCourses();
+    toast.success(`"${course.title}" archived.`);
+  };
+
+  const handleRestore = (course: Course) => {
+    restoreCourse(course.id);
+    refreshCourses();
+    toast.success(`"${course.title}" restored to draft.`);
+  };
+
   const filtered = courses.filter((c) => {
     const matchSearch = !search || c.title.toLowerCase().includes(search.toLowerCase()) || c.category.toLowerCase().includes(search.toLowerCase());
     const matchLevel = !filters.level || filters.level === 'all' || c.level === filters.level;
     const matchCat = !filters.category || filters.category === 'all' || c.category === filters.category;
-    return matchSearch && matchLevel && matchCat;
+    const matchStatus = !filters.status || filters.status === 'all' || c.status === filters.status;
+    return matchSearch && matchLevel && matchCat && matchStatus;
   });
 
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const categories = [...new Set(courses.map(c => c.category))];
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case 'published': return 'success';
+      case 'draft': return 'warning';
+      case 'archived': return 'default';
+      default: return 'default';
+    }
+  };
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
@@ -130,6 +164,7 @@ export function CoursesPage() {
         filters={[
           { key: 'category', placeholder: 'All Categories', options: categories.map(c => ({ value: c, label: c })) },
           { key: 'level', placeholder: 'All Levels', options: [{ value: 'beginner', label: 'Beginner' }, { value: 'intermediate', label: 'Intermediate' }, { value: 'advanced', label: 'Advanced' }] },
+          { key: 'status', placeholder: 'All Status', options: [{ value: 'draft', label: 'Draft' }, { value: 'published', label: 'Published' }, { value: 'archived', label: 'Archived' }] },
         ]}
       />
 
@@ -149,6 +184,39 @@ export function CoursesPage() {
                     <Pencil className="w-3.5 h-3.5 text-navy-800" />
                   </button>
                 </PermissionGate>
+                {course.status === 'draft' && (
+                  <PermissionGate module="Courses" action="edit">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handlePublish(course); }}
+                      className="p-1.5 bg-green-500/90 hover:bg-green-500 rounded-md transition-colors"
+                      title="Publish course"
+                    >
+                      <Send className="w-3.5 h-3.5 text-white" />
+                    </button>
+                  </PermissionGate>
+                )}
+                {course.status === 'published' && (
+                  <PermissionGate module="Courses" action="edit">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleArchive(course); }}
+                      className="p-1.5 bg-gray-500/90 hover:bg-gray-500 rounded-md transition-colors"
+                      title="Archive course"
+                    >
+                      <Archive className="w-3.5 h-3.5 text-white" />
+                    </button>
+                  </PermissionGate>
+                )}
+                {course.status === 'archived' && (
+                  <PermissionGate module="Courses" action="edit">
+                    <button
+                      onClick={(e) => { e.stopPropagation(); handleRestore(course); }}
+                      className="p-1.5 bg-blue-500/90 hover:bg-blue-500 rounded-md transition-colors"
+                      title="Restore to draft"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5 text-white" />
+                    </button>
+                  </PermissionGate>
+                )}
                 <PermissionGate module="Courses" action="delete">
                   <button
                     onClick={(e) => { e.stopPropagation(); setSelectedCourse(course); setShowDeleteModal(true); }}
@@ -161,7 +229,8 @@ export function CoursesPage() {
               </div>
             </div>
             <div className="space-y-3">
-              <div className="flex items-center justify-end">
+              <div className="flex items-center justify-between">
+                <Badge variant={getStatusBadge(course.status) as any}>{course.status}</Badge>
                 <Badge variant="gold">{course.level}</Badge>
               </div>
               <h3 className="font-semibold text-gray-900 line-clamp-2">{course.title}</h3>
@@ -175,12 +244,21 @@ export function CoursesPage() {
                 <span className="text-sm font-semibold text-navy-800">${course.price.toLocaleString()}</span>
                 <span className="text-xs text-gray-500">{course.instructor}</span>
               </div>
-              <button
-                onClick={() => navigate(`/courses/${course.id}`)}
-                className="w-full flex items-center justify-center gap-1 mt-2 px-4 py-2 bg-gold-500 hover:bg-gold-400 text-navy-900 text-sm font-medium rounded-lg transition-colors"
-              >
-                Enroll Now <ChevronRight className="w-4 h-4" />
-              </button>
+              {course.status === 'published' ? (
+                <button
+                  onClick={() => navigate(`/courses/${course.id}`)}
+                  className="w-full flex items-center justify-center gap-1 mt-2 px-4 py-2 bg-gold-500 hover:bg-gold-400 text-navy-900 text-sm font-medium rounded-lg transition-colors"
+                >
+                  Enroll Now <ChevronRight className="w-4 h-4" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => navigate(`/courses/${course.id}`)}
+                  className="w-full flex items-center justify-center gap-1 mt-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-sm font-medium rounded-lg transition-colors"
+                >
+                  View Details <ChevronRight className="w-4 h-4" />
+                </button>
+              )}
             </div>
           </Card>
         ))}
@@ -213,19 +291,33 @@ export function CoursesPage() {
               </select>
             </div>
           </div>
-          <div className="space-y-1">
-            <label className="block text-sm font-medium text-gray-700">Instructor</label>
-            <select name="instructor" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
-              <option value="">Select instructor</option>
-              {instructors.map(inst => (
-                <option key={inst.id} value={inst.id}>{inst.firstName} {inst.lastName}</option>
-              ))}
-            </select>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Instructor</label>
+              <select name="instructor" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                <option value="">Select instructor</option>
+                {instructors.map(inst => (
+                  <option key={inst.id} value={inst.id}>{inst.firstName} {inst.lastName}</option>
+                ))}
+              </select>
+            </div>
+            <div className="space-y-1">
+              <label className="block text-sm font-medium text-gray-700">Assign Content Manager</label>
+              <select name="assignedTo" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                <option value="">Select content manager</option>
+                {contentManagers.map(cm => (
+                  <option key={cm.id} value={cm.id}>{cm.firstName} {cm.lastName}</option>
+                ))}
+              </select>
+            </div>
           </div>
           <div className="grid grid-cols-3 gap-4">
             <Input label="Price ($) *" name="price" type="number" placeholder="0" required />
             <Input label="Duration *" name="duration" placeholder="e.g., 40 hours" required />
             <Input label="Capacity" name="capacity" type="number" placeholder="100" />
+          </div>
+          <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+            <p className="text-xs text-blue-700">Course will be created as <strong>Draft</strong>. Assign a Content Manager to build modules, lessons, and assessments. Publish when ready.</p>
           </div>
           <div className="flex justify-end gap-2 pt-4">
             <Button variant="outline" type="button" onClick={() => setShowAddModal(false)}>Cancel</Button>
@@ -259,14 +351,25 @@ export function CoursesPage() {
                 </select>
               </div>
             </div>
-            <div className="space-y-1">
-              <label className="block text-sm font-medium text-gray-700">Instructor</label>
-              <select name="instructor" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" defaultValue={selectedCourse.instructorId}>
-                <option value="">Select instructor</option>
-                {instructors.map(inst => (
-                  <option key={inst.id} value={inst.id}>{inst.firstName} {inst.lastName}</option>
-                ))}
-              </select>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-1">
+                <label className="block text-sm font-medium text-gray-700">Instructor</label>
+                <select name="instructor" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" defaultValue={selectedCourse.instructorId}>
+                  <option value="">Select instructor</option>
+                  {instructors.map(inst => (
+                    <option key={inst.id} value={inst.id}>{inst.firstName} {inst.lastName}</option>
+                  ))}
+                </select>
+              </div>
+              <div className="space-y-1">
+                <label className="block text-sm font-medium text-gray-700">Assign Content Manager</label>
+                <select name="assignedTo" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" defaultValue={selectedCourse.assignedTo || ''}>
+                  <option value="">Select content manager</option>
+                  {contentManagers.map(cm => (
+                    <option key={cm.id} value={cm.id}>{cm.firstName} {cm.lastName}</option>
+                  ))}
+                </select>
+              </div>
             </div>
             <div className="grid grid-cols-3 gap-4">
               <Input label="Price ($) *" name="price" type="number" placeholder="0" defaultValue={selectedCourse.price} required />

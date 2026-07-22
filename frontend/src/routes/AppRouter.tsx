@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { MainLayout } from '@/components/layouts/MainLayout';
 import { ProtectedRoute } from './ProtectedRoute';
 import { LoginPage } from '@/pages/auth/LoginPage';
+import { RegisterPage } from '@/pages/auth/RegisterPage';
 import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage';
 import { DashboardPage } from '@/pages/dashboard/DashboardPage';
 import { UsersPage } from '@/pages/users/UsersPage';
@@ -23,6 +24,7 @@ import { InquiriesPage } from '@/pages/inquiries/InquiriesPage';
 import { NotificationsPage } from '@/pages/notifications/NotificationsPage';
 import { MediaLibraryPage } from '@/pages/media/MediaLibraryPage';
 import { MyLearningPage } from '@/pages/learner/MyLearningPage';
+import { LearningPlayerPage } from '@/pages/learner/LearningPlayerPage';
 import { MySchedulePage } from '@/pages/learner/MySchedulePage';
 import { MyCertificatesPage } from '@/pages/learner/MyCertificatesPage';
 import { MyAssessmentsPage } from '@/pages/learner/MyAssessmentsPage';
@@ -38,6 +40,7 @@ export function AppRouter() {
       <Routes>
         {/* Public */}
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/unauthorized" element={<UnauthorizedPage />} />
 
@@ -68,6 +71,7 @@ export function AppRouter() {
 
           {/* Personal modules */}
           <Route path="/my-learning" element={<ProtectedRoute module="My Learning"><MyLearningPage /></ProtectedRoute>} />
+          <Route path="/my-learning/:id" element={<ProtectedRoute module="My Learning"><LearningPlayerPage /></ProtectedRoute>} />
           <Route path="/my-schedule" element={<ProtectedRoute module="My Schedule"><MySchedulePage /></ProtectedRoute>} />
           <Route path="/my-certificates" element={<ProtectedRoute module="My Certificates"><MyCertificatesPage /></ProtectedRoute>} />
           <Route path="/my-assessments" element={<ProtectedRoute module="My Assessments"><MyAssessmentsPage /></ProtectedRoute>} />

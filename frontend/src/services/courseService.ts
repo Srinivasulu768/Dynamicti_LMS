@@ -1,68 +1,74 @@
-import coursesData from '@/mock/courses.json';
+import { createStorageService } from './baseService';
 import type { Course } from '@/types';
+import coursesData from '@/mock/courses.json';
 
-const STORAGE_KEY = 'dynamicti_courses';
+const service = createStorageService<Course>('dynamicti_courses', coursesData as Course[]);
 
-/**
- * Single source of truth for all course data.
- * Initializes from mock data on first load, then persists to localStorage.
- * All pages must use this service — never import mock/courses.json directly.
- */
-
-function loadCourses(): Course[] {
-  try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      return JSON.parse(stored) as Course[];
-    }
-  } catch {
-    /* ignore parse errors */
-  }
-  // First-time initialization from mock data
-  const initial = coursesData as Course[];
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(initial));
-  return initial;
-}
-
-function saveCourses(courses: Course[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(courses));
-}
-
-// ─── Public API ────────────────────────────────────────────────────────────
+// ─── Public API (backward-compatible exports) ──────────────────────────────
 
 export function getCourses(): Course[] {
-  return loadCourses();
+  return service.getAll();
 }
 
 export function getCourseById(id: string): Course | undefined {
-  return loadCourses().find((c) => c.id === id);
+  return service.getById(id);
 }
 
 export function createCourse(data: Omit<Course, 'id'>): Course {
-  const courses = loadCourses();
-  const newCourse: Course = {
-    ...data,
-    id: `CRS-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`,
-  };
-  const updated = [newCourse, ...courses];
-  saveCourses(updated);
-  return newCourse;
+  return service.create(data);
 }
 
 export function updateCourse(id: string, data: Partial<Course>): Course | null {
-  const courses = loadCourses();
-  const index = courses.findIndex((c) => c.id === id);
-  if (index === -1) return null;
-  const updated = { ...courses[index], ...data, id }; // id is immutable
-  courses[index] = updated;
-  saveCourses(courses);
-  return updated;
+  return service.update(id, data);
 }
 
 export function deleteCourse(id: string): boolean {
-  const courses = loadCourses();
-  const filtered = courses.filter((c) => c.id !== id);
-  if (filtered.length === courses.length) return false;
-  saveCourses(filtered);
-  return true;
+  return service.delete(id);
 }
+
+// ─── New Workflow Methods ───────────────────────────────────────────────────
+
+/** Get courses by status */
+export function getCoursesByStatus(status: Course['status']): Course[] {
+  return service.getAll().filter((c) => c.status === status);
+}
+
+/** Get published courses only (catalog) */
+export function getPublishedCourses(): Course[] {
+  return service.getAll().filter((c) => c.status === 'published');
+}
+
+/** Publish a course (draft → published) */
+export function publishCourse(id: string): Course | null {
+  return service.update(id, { status: 'published', publishedDate: new Date().toISOString().split('T')[0] });
+}
+
+/** Archive a course (published → archived) */
+export function archiveCourse(id: string): Course | null {
+  return service.update(id, { status: 'archived' });
+}
+
+/** Restore a course to draft */
+export function restoreCourse(id: string): Course | null {
+  return service.update(id, { status: 'draft' });
+}
+
+/** Assign a content manager to a course */
+export function assignCourseContentManager(id: string, userId: string): Course | null {
+  return service.update(id, { assignedTo: userId });
+}
+
+/** Export the service object for consistency */
+export const courseService = {
+  getAll: getCourses,
+  getById: getCourseById,
+  create: createCourse,
+  update: updateCourse,
+  delete: deleteCourse,
+  getByStatus: getCoursesByStatus,
+  getPublished: getPublishedCourses,
+  publish: publishCourse,
+  archive: archiveCourse,
+  restore: restoreCourse,
+  assignContentManager: assignCourseContentManager,
+};

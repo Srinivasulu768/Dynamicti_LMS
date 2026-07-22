@@ -129,6 +129,14 @@ export function LoginPage() {
             </Button>
           </form>
 
+          {/* Register Link */}
+          <p className="text-center text-sm text-gray-600 mt-4">
+            Don't have an account?{' '}
+            <Link to="/register" className="text-navy-800 font-semibold hover:underline">
+              Create Account
+            </Link>
+          </p>
+
           {/* Demo Accounts */}
           <div className="mt-6 pt-6 border-t border-gray-200">
             <p className="text-xs font-medium text-gray-500 mb-3 text-center">DEMO ACCOUNTS</p>

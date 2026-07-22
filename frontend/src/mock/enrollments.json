@@ -13,5 +13,7 @@
   {"id":"ENR012","userId":"USR019","userName":"Michelle King","courseId":"CRS009","courseName":"Compliance & Regulatory Training","progress":100,"status":"completed","enrolledDate":"2026-05-15","completedDate":"2026-06-20","grade":"A-"},
   {"id":"ENR013","userId":"USR006","userName":"Michael Johnson","courseId":"CRS004","courseName":"Project Management Professional","progress":32,"status":"in_progress","enrolledDate":"2026-07-01"},
   {"id":"ENR014","userId":"USR007","userName":"Emily Williams","courseId":"CRS007","courseName":"Emergency Response & Crisis Management","progress":15,"status":"enrolled","enrolledDate":"2026-07-15"},
-  {"id":"ENR015","userId":"USR012","userName":"Christopher Wilson","courseId":"CRS009","courseName":"Compliance & Regulatory Training","progress":100,"status":"completed","enrolledDate":"2026-02-01","completedDate":"2026-04-10","grade":"B"}
+  {"id":"ENR015","userId":"USR012","userName":"Christopher Wilson","courseId":"CRS009","courseName":"Compliance & Regulatory Training","progress":100,"status":"completed","enrolledDate":"2026-02-01","completedDate":"2026-04-10","grade":"B"},
+  {"id":"ENR016","userId":"USR006","userName":"Michael Johnson","courseId":"PRG001","courseName":"DTI CQB Tier-One","parentType":"program","progress":40,"status":"in_progress","enrolledDate":"2026-07-01"},
+  {"id":"ENR017","userId":"USR006","userName":"Michael Johnson","courseId":"PRG008","courseName":"Active Shooter Response","parentType":"program","progress":10,"status":"in_progress","enrolledDate":"2026-07-10"}
 ]

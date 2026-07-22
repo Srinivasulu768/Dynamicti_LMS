@@ -3,36 +3,139 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ArrowLeft, BookOpen, Clock, Users, Star, DollarSign,
-  CheckCircle, Play, Lock, ShoppingCart, CreditCard, Award,
-  Calendar, BarChart3, FileText, Video
+  Lock, ShoppingCart, CreditCard, Award,
+  Calendar, BarChart3, FileText, Video, ChevronDown, ChevronUp,
+  ClipboardList, HelpCircle
 } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
-import { Badge } from '@/components/ui/Badge';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/Card';
-import { ProgressBar } from '@/components/ui/ProgressBar';
 import { Modal } from '@/components/ui/Modal';
-import { getCourseById, getCourses } from '@/services/courseService';
-import type { Course } from '@/types';
+import { getCourseById } from '@/services/courseService';
 import toast from 'react-hot-toast';
 
-// Mock curriculum data
-const curriculum = [
-  { id: 1, title: 'Introduction & Overview', duration: '45 min', type: 'video', completed: true, locked: false },
-  { id: 2, title: 'Core Concepts & Principles', duration: '60 min', type: 'video', completed: true, locked: false },
-  { id: 3, title: 'Hands-On Practical Exercise', duration: '90 min', type: 'video', completed: false, locked: false },
-  { id: 4, title: 'Field Assessment & Scenarios', duration: '120 min', type: 'assignment', completed: false, locked: false },
-  { id: 5, title: 'Advanced Techniques', duration: '75 min', type: 'video', completed: false, locked: true },
-  { id: 6, title: 'Case Studies & Analysis', duration: '60 min', type: 'document', completed: false, locked: true },
-  { id: 7, title: 'Final Assessment', duration: '45 min', type: 'quiz', completed: false, locked: true },
-  { id: 8, title: 'Certification & Wrap-up', duration: '30 min', type: 'video', completed: false, locked: true },
+// Mock curriculum sections with lessons
+const curriculumSections = [
+  {
+    id: 'SEC001',
+    title: 'Introduction & Overview',
+    lessons: [
+      { id: 'L001', title: 'Welcome & Course Overview', duration: '5:30', type: 'video' },
+      { id: 'L002', title: 'Course Objectives', duration: '8:15', type: 'video' },
+      { id: 'L003', title: 'Pre-Assessment Quiz', duration: '10:00', type: 'quiz' },
+    ],
+  },
+  {
+    id: 'SEC002',
+    title: 'Core Concepts & Principles',
+    lessons: [
+      { id: 'L004', title: 'Foundational Theory', duration: '12:00', type: 'video' },
+      { id: 'L005', title: 'Key Terminology', duration: '8:45', type: 'video' },
+      { id: 'L006', title: 'Case Study Analysis', duration: '15:30', type: 'document' },
+      { id: 'L007', title: 'Principles in Practice', duration: '10:20', type: 'video' },
+      { id: 'L008', title: 'Knowledge Check', duration: '5:00', type: 'quiz' },
+    ],
+  },
+  {
+    id: 'SEC003',
+    title: 'Hands-On Practical Exercise',
+    lessons: [
+      { id: 'L009', title: 'Exercise Setup & Instructions', duration: '6:00', type: 'video' },
+      { id: 'L010', title: 'Guided Practice Session', duration: '20:00', type: 'video' },
+      { id: 'L011', title: 'Independent Practice', duration: '30:00', type: 'assignment' },
+      { id: 'L012', title: 'Debrief & Review', duration: '10:00', type: 'video' },
+    ],
+  },
+  {
+    id: 'SEC004',
+    title: 'Field Assessment & Scenarios',
+    lessons: [
+      { id: 'L013', title: 'Scenario Briefing', duration: '8:00', type: 'video' },
+      { id: 'L014', title: 'Scenario 1: Standard Response', duration: '25:00', type: 'assignment' },
+      { id: 'L015', title: 'Scenario 2: Complex Situation', duration: '35:00', type: 'assignment' },
+      { id: 'L016', title: 'After-Action Review', duration: '12:00', type: 'video' },
+    ],
+  },
+  {
+    id: 'SEC005',
+    title: 'Advanced Techniques',
+    lessons: [
+      { id: 'L017', title: 'Advanced Method Overview', duration: '15:00', type: 'video' },
+      { id: 'L018', title: 'Technique Demonstration', duration: '18:00', type: 'video' },
+      { id: 'L019', title: 'Practice Drill', duration: '25:00', type: 'assignment' },
+    ],
+  },
+  {
+    id: 'SEC006',
+    title: 'Case Studies & Analysis',
+    lessons: [
+      { id: 'L020', title: 'Case Study 1', duration: '12:00', type: 'document' },
+      { id: 'L021', title: 'Case Study 2', duration: '14:00', type: 'document' },
+      { id: 'L022', title: 'Discussion & Analysis', duration: '10:00', type: 'video' },
+    ],
+  },
+  {
+    id: 'SEC007',
+    title: 'Final Assessment',
+    lessons: [
+      { id: 'L023', title: 'Review & Preparation', duration: '10:00', type: 'video' },
+      { id: 'L024', title: 'Final Written Exam', duration: '45:00', type: 'quiz' },
+      { id: 'L025', title: 'Practical Evaluation', duration: '30:00', type: 'assignment' },
+    ],
+  },
+  {
+    id: 'SEC008',
+    title: 'Certification & Wrap-up',
+    lessons: [
+      { id: 'L026', title: 'Course Summary', duration: '8:00', type: 'video' },
+      { id: 'L027', title: 'Certificate Requirements', duration: '5:00', type: 'document' },
+      { id: 'L028', title: 'Next Steps & Resources', duration: '6:00', type: 'video' },
+    ],
+  },
 ];
+
+function getLessonIcon(type: string) {
+  switch (type) {
+    case 'video': return <Video className="w-4 h-4 text-gray-500" />;
+    case 'document': return <FileText className="w-4 h-4 text-gray-500" />;
+    case 'assignment': return <ClipboardList className="w-4 h-4 text-gray-500" />;
+    case 'quiz': return <HelpCircle className="w-4 h-4 text-gray-500" />;
+    default: return <BookOpen className="w-4 h-4 text-gray-500" />;
+  }
+}
+
+function calculateSectionDuration(lessons: { duration: string }[]) {
+  let totalMinutes = 0;
+  for (const lesson of lessons) {
+    const parts = lesson.duration.split(':');
+    totalMinutes += parseInt(parts[0]) + (parseInt(parts[1]) || 0) / 60;
+  }
+  if (totalMinutes >= 60) {
+    const hrs = Math.floor(totalMinutes / 60);
+    const mins = Math.round(totalMinutes % 60);
+    return `${hrs}hr ${mins}min`;
+  }
+  return `${Math.round(totalMinutes)}min`;
+}
+
+const totalLectures = curriculumSections.reduce((acc, s) => acc + s.lessons.length, 0);
+const totalDuration = (() => {
+  let totalMinutes = 0;
+  for (const section of curriculumSections) {
+    for (const lesson of section.lessons) {
+      const parts = lesson.duration.split(':');
+      totalMinutes += parseInt(parts[0]) + (parseInt(parts[1]) || 0) / 60;
+    }
+  }
+  const hrs = Math.floor(totalMinutes / 60);
+  const mins = Math.round(totalMinutes % 60);
+  return `${hrs}h ${mins}m`;
+})();
 
 export function CourseDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
-  const [enrolled, setEnrolled] = useState(false);
-  const [learningStarted, setLearningStarted] = useState(false);
+  const [expandedSections, setExpandedSections] = useState<string[]>([]);
 
   const course = getCourseById(id || '');
 
@@ -47,159 +150,108 @@ export function CourseDetailPage() {
     );
   }
 
-  const handlePurchase = () => {
-    setShowPurchaseModal(false);
-    setEnrolled(true);
-    toast.success('Enrollment successful! You can now start learning.');
+  const toggleSection = (sectionId: string) => {
+    setExpandedSections((prev) =>
+      prev.includes(sectionId) ? prev.filter((id) => id !== sectionId) : [...prev, sectionId]
+    );
   };
 
-  const handleStartLearning = () => {
-    setLearningStarted(true);
-    toast.success('Welcome to the course! Let\'s begin.');
+  const toggleAllSections = () => {
+    if (expandedSections.length === curriculumSections.length) {
+      setExpandedSections([]);
+    } else {
+      setExpandedSections(curriculumSections.map((s) => s.id));
+    }
+  };
+
+  const handlePurchase = () => {
+    setShowPurchaseModal(false);
+    toast.success('Enrollment successful! You can now start learning.');
   };
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
-      {/* Back Button */}
-      <button
-        onClick={() => navigate('/courses')}
-        className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 transition-colors"
-      >
-        <ArrowLeft className="w-4 h-4" /> Back to Courses
-      </button>
-
       {/* Course Header */}
-      <div className="bg-gradient-to-r from-navy-900 to-navy-700 rounded-xl p-8 text-white">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div className="space-y-3">
-            <div className="flex items-center gap-2">
-              <Badge variant="gold">{course.category}</Badge>
-              <Badge variant="info">{course.level}</Badge>
-            </div>
-            <h1 className="text-2xl lg:text-3xl font-bold">{course.title}</h1>
-            <p className="text-gray-300 max-w-2xl">{course.description}</p>
-            <div className="flex flex-wrap items-center gap-4 text-sm text-gray-300">
-              <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {course.duration}</span>
-              <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {course.enrollmentCount} enrolled</span>
-              <span className="flex items-center gap-1"><Star className="w-4 h-4 text-gold-500" /> {course.rating}/5</span>
-              <span className="flex items-center gap-1"><BookOpen className="w-4 h-4" /> {course.modules} modules · {course.lessons} lessons</span>
-            </div>
-            <p className="text-sm text-gray-400">Instructor: <span className="text-white font-medium">{course.instructor}</span></p>
-          </div>
-
-          {/* Price & Action */}
-          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-6 min-w-[260px] text-center">
-            <p className="text-3xl font-bold text-gold-500 mb-1">
-              {course.price === 0 ? 'FREE' : `$${course.price.toLocaleString()}`}
-            </p>
-            <p className="text-sm text-gray-300 mb-4">One-time payment</p>
-
-            {!enrolled ? (
-              <Button
-                variant="gold"
-                size="lg"
-                className="w-full"
-                onClick={() => setShowPurchaseModal(true)}
-              >
-                <ShoppingCart className="w-4 h-4 mr-2" /> Enroll Now
-              </Button>
-            ) : !learningStarted ? (
-              <Button
-                variant="gold"
-                size="lg"
-                className="w-full"
-                onClick={handleStartLearning}
-              >
-                <Play className="w-4 h-4 mr-2" /> Start Learning
-              </Button>
-            ) : (
-              <Button
-                variant="gold"
-                size="lg"
-                className="w-full"
-                onClick={() => toast.success('Continuing lesson...')}
-              >
-                <Play className="w-4 h-4 mr-2" /> Continue Learning
-              </Button>
-            )}
-
-            {enrolled && (
-              <p className="text-xs text-green-400 mt-2 flex items-center justify-center gap-1">
-                <CheckCircle className="w-3.5 h-3.5" /> Enrolled
-              </p>
-            )}
-          </div>
+      <div className="bg-gradient-to-r from-navy-900 to-navy-700 rounded-xl p-6 text-white">
+        <div className="flex flex-wrap items-center gap-4 text-sm text-gray-300">
+          <span className="flex items-center gap-1"><Clock className="w-4 h-4" /> {course.duration}</span>
+          <span className="flex items-center gap-1"><Users className="w-4 h-4" /> {course.enrollmentCount} enrolled</span>
+          <span className="flex items-center gap-1"><Star className="w-4 h-4 text-gold-500" /> {course.rating}/5</span>
+          <span className="flex items-center gap-1"><BookOpen className="w-4 h-4" /> {course.modules} modules · {course.lessons} lessons</span>
         </div>
       </div>
 
-      {/* Course Content */}
+      {/* Content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Curriculum */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Learning Progress (shown only when enrolled) */}
-          {enrolled && (
-            <Card>
-              <CardHeader><CardTitle>Your Progress</CardTitle></CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-500">2 of {curriculum.length} lessons completed</span>
-                  <span className="text-sm font-bold text-navy-800">25%</span>
-                </div>
-                <ProgressBar value={25} color="gold" size="lg" />
-              </CardContent>
-            </Card>
-          )}
+        {/* Main Content - Curriculum Accordion */}
+        <div className="lg:col-span-2">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-bold text-gray-900">Course content</h2>
+            <button
+              onClick={toggleAllSections}
+              className="text-sm font-medium text-navy-800 hover:text-navy-600 transition-colors"
+            >
+              {expandedSections.length === curriculumSections.length ? 'Collapse all sections' : 'Expand all sections'}
+            </button>
+          </div>
+          <p className="text-sm text-gray-500 mb-4">
+            {curriculumSections.length} sections · {totalLectures} lectures · {totalDuration} total length
+          </p>
 
-          {/* Course Curriculum */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Course Curriculum</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                {curriculum.map((lesson, index) => (
-                  <div
-                    key={lesson.id}
-                    className={`flex items-center gap-4 p-3 rounded-lg border transition-colors ${
-                      lesson.completed
-                        ? 'bg-green-50 border-green-200'
-                        : lesson.locked && !enrolled
-                        ? 'bg-gray-50 border-gray-200 opacity-60'
-                        : 'bg-white border-gray-200 hover:bg-gray-50 cursor-pointer'
-                    }`}
-                    onClick={() => {
-                      if (enrolled && !lesson.locked) {
-                        toast.success(`Playing: ${lesson.title}`);
-                      } else if (!enrolled) {
-                        toast('Enroll to access this lesson', { icon: '🔒' });
-                      }
-                    }}
+          <div className="border border-gray-200 rounded-lg overflow-hidden">
+            {curriculumSections.map((section) => {
+              const isExpanded = expandedSections.includes(section.id);
+              return (
+                <div key={section.id} className="border-b border-gray-200 last:border-b-0">
+                  {/* Section Header */}
+                  <button
+                    onClick={() => toggleSection(section.id)}
+                    className="w-full flex items-center justify-between px-4 py-4 bg-gray-50 hover:bg-gray-100 transition-colors"
                   >
-                    <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0">
-                      {lesson.completed ? (
-                        <CheckCircle className="w-5 h-5 text-green-500" />
-                      ) : lesson.locked && !enrolled ? (
-                        <Lock className="w-4 h-4 text-gray-400" />
+                    <div className="flex items-center gap-2">
+                      {isExpanded ? (
+                        <ChevronUp className="w-4 h-4 text-gray-500" />
                       ) : (
-                        <span className="w-6 h-6 bg-navy-800/10 rounded-full flex items-center justify-center text-xs font-medium text-navy-800">
-                          {index + 1}
-                        </span>
+                        <ChevronDown className="w-4 h-4 text-gray-500" />
                       )}
+                      <span className="text-sm font-semibold text-gray-900">{section.title}</span>
                     </div>
-                    <div className="flex-1">
-                      <p className="text-sm font-medium text-gray-900">{lesson.title}</p>
-                      <p className="text-xs text-gray-500">{lesson.duration} · {lesson.type}</p>
+                    <span className="text-xs text-gray-500">
+                      {section.lessons.length} lectures · {calculateSectionDuration(section.lessons)}
+                    </span>
+                  </button>
+
+                  {/* Section Lessons */}
+                  {isExpanded && (
+                    <div className="bg-white">
+                      {section.lessons.map((lesson) => (
+                        <div
+                          key={lesson.id}
+                          className="flex items-center gap-3 px-6 py-3 border-t border-gray-100 hover:bg-gray-50 transition-colors cursor-pointer"
+                        >
+                          {getLessonIcon(lesson.type)}
+                          <span className="flex-1 text-sm text-gray-700">{lesson.title}</span>
+                          <span className="text-xs text-gray-500">{lesson.duration}</span>
+                        </div>
+                      ))}
                     </div>
-                    {enrolled && !lesson.locked && !lesson.completed && (
-                      <Play className="w-4 h-4 text-navy-800" />
-                    )}
-                    {lesson.type === 'video' && <Video className="w-4 h-4 text-gray-400" />}
-                    {lesson.type === 'document' && <FileText className="w-4 h-4 text-gray-400" />}
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Enroll Now Button */}
+          <div className="mt-6">
+            <Button
+              variant="gold"
+              size="lg"
+              className="w-full"
+              onClick={() => setShowPurchaseModal(true)}
+            >
+              <ShoppingCart className="w-4 h-4 mr-2" /> Enroll Now · {course.price === 0 ? 'FREE' : `$${course.price.toLocaleString()}`}
+            </Button>
+          </div>
         </div>
 
         {/* Sidebar Info */}
@@ -254,32 +306,12 @@ export function CourseDetailPage() {
               </CardContent>
             </Card>
           )}
-
-          {course.prerequisites && course.prerequisites.length > 0 && (
-            <Card>
-              <CardHeader><CardTitle>Prerequisites</CardTitle></CardHeader>
-              <CardContent>
-                <ul className="space-y-2">
-                  {course.prerequisites.map((prereq) => {
-                    const prereqCourse = getCourseById(prereq);
-                    return (
-                      <li key={prereq} className="text-sm text-gray-600 flex items-center gap-2">
-                        <CheckCircle className="w-4 h-4 text-gray-400" />
-                        {prereqCourse?.title || prereq}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
         </div>
       </div>
 
       {/* Purchase Modal */}
       <Modal isOpen={showPurchaseModal} onClose={() => setShowPurchaseModal(false)} title="Enroll in Course" size="md">
         <div className="space-y-6">
-          {/* Order Summary */}
           <div className="bg-gray-50 rounded-lg p-4">
             <h3 className="font-medium text-gray-900 mb-2">Order Summary</h3>
             <div className="flex items-center justify-between py-2 border-b border-gray-200">
@@ -296,7 +328,6 @@ export function CourseDetailPage() {
             </div>
           </div>
 
-          {/* Payment Method */}
           <div>
             <h3 className="font-medium text-gray-900 mb-3">Payment Method</h3>
             <div className="space-y-2">
@@ -313,11 +344,8 @@ export function CourseDetailPage() {
             </div>
           </div>
 
-          {/* Card Details */}
           <div className="space-y-3">
-            <div className="relative">
-              <input type="text" placeholder="Card Number" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
-            </div>
+            <input type="text" placeholder="Card Number" className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm" />
             <div className="grid grid-cols-2 gap-3">
               <input type="text" placeholder="MM/YY" className="px-3 py-2 border border-gray-300 rounded-lg text-sm" />
               <input type="text" placeholder="CVV" className="px-3 py-2 border border-gray-300 rounded-lg text-sm" />

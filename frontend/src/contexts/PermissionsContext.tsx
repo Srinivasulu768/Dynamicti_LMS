@@ -59,7 +59,7 @@ const SEED_PERMISSIONS: AllPermissions = {
     []
   ),
   learner: buildPerms(
-    ['Dashboard', 'My Learning', 'My Schedule', 'My Certificates', 'My Assessments'],
+    ['Dashboard', 'Courses', 'Programs', 'My Learning', 'My Schedule', 'My Certificates', 'My Assessments'],
     [],
     [],
     []
